@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogInActivity">
+
+    <LinearLayout
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/wzls" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="欢迎来到安卓学习程序"
+            android:textColor="#3f3f3f"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/userNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_alignStart="@+id/inputUserName"
+        android:layout_marginTop="30dp"
+        android:text="用户名"
+        android:textColor="#3f3f3f"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/inputUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/userNameLabel"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@mipmap/user2"
+        android:drawablePadding="10dp"
+        android:ems="14"
+        android:hint="请输入用户名" />
+
+    <TextView
+        android:id="@+id/pwdLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputUserName"
+        android:layout_alignStart="@+id/inputUserName"
+        android:layout_marginTop="15dp"
+        android:text="密码"
+        android:textColor="#3f3f3f"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/inputPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/pwdLabel"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@mipmap/pwd"
+        android:drawablePadding="10dp"
+        android:ems="14"
+        android:hint="请输入密码"
+        android:inputType="textPassword" />
+
+
+    <Button
+        android:id="@+id/login_registerBtn"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="250dp"
+        android:background="@drawable/button_style"
+        android:text="注册"
+        android:textColor="#FFF" />
+
+
+    <Button
+        android:id="@+id/login_logInBtn"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="250dp"
+        android:background="@drawable/button_style"
+        android:text="登录"
+        android:textColor="#FFF" />
+
+</RelativeLayout>
