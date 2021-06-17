@@ -35,8 +35,8 @@ public class ChallengeFragment extends Fragment {
             }
         });
         Drawable numeracyIcon = getResources().getDrawable(R.mipmap.numeracy);
-        numeracyIcon.setBounds(0,0,50,50);
-        numeracyBtn.setCompoundDrawables(numeracyIcon,null,null,null);
+        numeracyIcon.setBounds(0, 0, 50, 50);
+        numeracyBtn.setCompoundDrawables(numeracyIcon, null, null, null);
         numeracyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,8 +50,8 @@ public class ChallengeFragment extends Fragment {
             }
         });
         Drawable thinkingIcon = getResources().getDrawable(R.mipmap.thinking);
-        thinkingIcon.setBounds(new Rect(0,0,50,50));
-        thinkingBtn.setCompoundDrawables(thinkingIcon,null,null,null);
+        thinkingIcon.setBounds(new Rect(0, 0, 50, 50));
+        thinkingBtn.setCompoundDrawables(thinkingIcon, null, null, null);
 
         literatureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,18 +60,18 @@ public class ChallengeFragment extends Fragment {
             }
         });
         Drawable literatureIcon = getResources().getDrawable(R.mipmap.literature);
-        literatureIcon.setBounds(0,0,50,50);
-        literatureBtn.setCompoundDrawables(literatureIcon,null,null,null);
+        literatureIcon.setBounds(0, 0, 50, 50);
+        literatureBtn.setCompoundDrawables(literatureIcon, null, null, null);
         return root;
     }
 
-    private void startChallenge(String type){
+    private void startChallenge(String type) {
         Intent intent = new Intent();
-        if(type.equals("Numeracy"))
+        if (type.equals("Numeracy"))
             intent.setClass(this.getActivity(), AnswerInputActivity.class);
         else
-            intent.setClass(this.getActivity(),AnswerSelectActivity.class);
-        intent.putExtra("type",type);
+            intent.setClass(this.getActivity(), AnswerSelectActivity.class);
+        intent.putExtra("type", type);
         startActivity(intent);
     }
 }

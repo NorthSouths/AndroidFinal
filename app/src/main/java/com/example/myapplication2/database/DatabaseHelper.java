@@ -98,20 +98,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //题目表 记录题目 Question(QUESTION_ID INT, QUESTION_CONTENT, CHOICEA,CHOICEB,CHOICEC,CHOICED)
         if (!questionTableCreated) {
             String sql = "create table Question(" +
-                    "question_id primary key autoincrement, " +
-                    "question_content varchar(65535), " +
-                    "question_chapter int, "+
-                    "choiceA varchar(65535), " +
-                    "choiceB varchar(65535), " +
-                    "choiceC varchar(65535), " +
-                    "choiceD varchar(65535) " +
+                    "question_id INTEGER primary key autoincrement, " + //主键递增
+                    "question_content varchar(65535), " + //题干
+                    "question_chapter int, "+ //章节
+                    "choiceA varchar(65535), " +//选项
+                    "choiceB varchar(65535), " +//选项
+                    "choiceC varchar(65535), " +//选项
+                    "choiceD varchar(65535) " +//选项
                     ")";
             db.execSQL(sql);
             questionTableCreated = true;
         }
         if (!answerTableCreated) {
-            String sql = "create table Answer()";
-
+            String sql = "create table Answer(" +
+                    "question_id INTEGER primary key autoincrement, " + //主键递增
+                    "question_answer varchar(65535) " + //题干
+                    ")";
+            db.execSQL(sql);
+            answerTableCreated = true;
         }
     }
 
