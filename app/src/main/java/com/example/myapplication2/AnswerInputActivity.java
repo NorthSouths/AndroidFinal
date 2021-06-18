@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication2.database.DatabaseHelper;
-
-import org.w3c.dom.Text;
+import com.example.myapplication2.dao.DatabaseHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

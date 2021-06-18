@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.myapplication2.database.DatabaseHelper;
+import com.example.myapplication2.dao.DatabaseHelper;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 
 public class UserInfo {

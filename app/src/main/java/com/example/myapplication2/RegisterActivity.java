@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication2.database.DatabaseHelper;
+import com.example.myapplication2.dao.DatabaseHelper;
 
 public class RegisterActivity extends AppCompatActivity {
 

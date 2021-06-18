@@ -19,14 +19,14 @@ import com.example.myapplication2.R;
 
 public class ChallengeFragment extends Fragment {
     private Button numeracyBtn;
-    private Button thinkingBtn;
+    private Button randomPracticeBtn;
     private Button literatureBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_challenge, container, false);
         numeracyBtn = root.findViewById(R.id.numeracyBtn);
-        thinkingBtn = root.findViewById(R.id.thinkingBtn);
+        randomPracticeBtn = root.findViewById(R.id.random_practice_Btn);
         literatureBtn = root.findViewById(R.id.literatureBtn);
         numeracyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +43,7 @@ public class ChallengeFragment extends Fragment {
                 startChallenge("Numeracy");
             }
         });
-        thinkingBtn.setOnClickListener(new View.OnClickListener() {
+        randomPracticeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startChallenge("Thinking");
@@ -51,7 +51,7 @@ public class ChallengeFragment extends Fragment {
         });
         Drawable thinkingIcon = getResources().getDrawable(R.mipmap.thinking);
         thinkingIcon.setBounds(new Rect(0, 0, 50, 50));
-        thinkingBtn.setCompoundDrawables(thinkingIcon, null, null, null);
+        randomPracticeBtn.setCompoundDrawables(thinkingIcon, null, null, null);
 
         literatureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +71,7 @@ public class ChallengeFragment extends Fragment {
             intent.setClass(this.getActivity(), AnswerInputActivity.class);
         else
             intent.setClass(this.getActivity(), AnswerSelectActivity.class);
-        intent.putExtra("type", type);
+        intent.putExtra("type", type);//源程序送参数type，表示读取内容的类型。
         startActivity(intent);
     }
 }

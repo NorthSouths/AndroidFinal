@@ -15,11 +15,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication2.database.DatabaseHelper;
+import com.example.myapplication2.dao.DatabaseHelper;
+import com.example.myapplication2.dao.QuestionDao;
+import com.example.myapplication2.data.Question;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class AnswerSelectActivity extends AppCompatActivity {
@@ -29,33 +32,47 @@ public class AnswerSelectActivity extends AppCompatActivity {
     private RadioButton[] answerBtn = new RadioButton[5];
     private Button submit;
     private Button next;
-    private String type = "批判思维";
+
     private ArrayList<qoc_select> list = new ArrayList<>();
     private int index = 1;
     private String rightAnswer;
     private int rightNum;
     private int wrongNum;
     private int checkedIndex;
-    private final int TOTAL_QUESTION = 5;
+    private String chosenType = "随机出题";
+    private int chosenChapter;
+    private int totalQuestionNum = 5;
+    private int TOTAL_QUESTION = 5; //测试用数据
+    private String type = "Numerancy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("qoc","answer activity select create");
+        Log.i("qoc", "answer activity select create");
         super.onCreate(savedInstanceState);
 
         final Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            if(bundle.containsKey("type")){
-                type = (String)bundle.get("type");
+        if (bundle != null) {
+            if (bundle.containsKey("type")) {
+                chosenType = (String) bundle.get("type");
             }
         }
         setContentView(R.layout.activity_answer_select);
 
-        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(),"qoc");
+        // 是否要对章节来计算？
+        QuestionDao questionDao = new QuestionDao(getBaseContext());
+        int count = questionDao.getTotalQuestionCount();
+        Log.w("测试", String.valueOf(count)); //测试通过。
+        List<Integer> li = new ArrayList<Integer>();
+        li.add(2);
+        List<Question> list1 =questionDao.getQuestionList(li);
+
+        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(), "qoc");
         SQLiteDatabase db = helper.getReadableDatabase();
-        try{
-            Cursor cursor = db.query(type,null,null,null,null,null,null);
-            while(cursor.moveToNext()){
+
+
+        try {
+            Cursor cursor = db.query("Numeracy", null, null, null, null, null, null);
+            while (cursor.moveToNext()) {
                 String q = cursor.getString(cursor.getColumnIndex("question"));
                 String a1 = cursor.getString(cursor.getColumnIndex("answerA"));
                 String a2 = cursor.getString(cursor.getColumnIndex("answerB"));
@@ -63,10 +80,10 @@ public class AnswerSelectActivity extends AppCompatActivity {
                 String a4 = cursor.getString(cursor.getColumnIndex("answerD"));
                 String a5 = cursor.getString(cursor.getColumnIndex("answerE"));
                 String ra = cursor.getString(cursor.getColumnIndex("rightAnswer"));
-                list.add(new qoc_select(q,a1,a2,a3,a4,a5,ra));
+                list.add(new qoc_select(q, a1, a2, a3, a4, a5, ra));
             }
             cursor.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         rightNum = 0;
@@ -87,36 +104,38 @@ public class AnswerSelectActivity extends AppCompatActivity {
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == answerBtn[0].getId()){
-                     checkedIndex = 0;
-                }else if(checkedId == answerBtn[1].getId()){
+                if (checkedId == answerBtn[0].getId()) {
+                    checkedIndex = 0;
+                } else if (checkedId == answerBtn[1].getId()) {
                     checkedIndex = 1;
-                }else if(checkedId == answerBtn[2].getId()){
+                } else if (checkedId == answerBtn[2].getId()) {
                     checkedIndex = 2;
-                }else if(checkedId == answerBtn[3].getId()){
+                } else if (checkedId == answerBtn[3].getId()) {
                     checkedIndex = 3;
-                }else if(checkedId == answerBtn[4].getId()){
+                } else if (checkedId == answerBtn[4].getId()) {
                     checkedIndex = 4;
                 }
-            };
+            }
+
+            ;
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(answerBtn[checkedIndex].getText().toString().compareTo(rightAnswer) == 0){
+                if (answerBtn[checkedIndex].getText().toString().compareTo(rightAnswer) == 0) {
                     rightNum++;
-                    Log.i("qoc","right");
-                }else{
+                    Log.i("qoc", "right");
+                } else {
                     wrongNum++;
-                    Log.i("qoc","wrong");
+                    Log.i("qoc", "wrong");
                 }
                 UserInfo info = UserInfo.getInstance(getBaseContext());
-                int score = Math.max(rightNum*5 - wrongNum*2,0);
+                int score = Math.max(rightNum * 5 - wrongNum * 2, 0);
                 Date date = new Date();
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 String time = format.format(date);
-                UserInfo.Record record = info.genRecord(type,time,score);
+                UserInfo.Record record = info.genRecord(type, time, score);
                 info.storageRecord(record);
                 String msg = "非常棒" + info.getName() + ", 你已经完成该乐园中的全部内容，你做出了 "
                         + rightNum + " 个正确答案和 " + wrongNum + " 个错误答案 \n 在此乐园里，你最终获得 " + info.getScore() + " 个经验豆";
@@ -140,31 +159,31 @@ public class AnswerSelectActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        Log.i("qoc","answer activity is destroyed");
+        Log.i("qoc", "answer activity is destroyed");
     }
 
-    private void onNext(){
-        if(index > TOTAL_QUESTION){
-            Toast.makeText(this,"你已完成全部内容",Toast.LENGTH_SHORT).show();
+    private void onNext() {
+        if (index > TOTAL_QUESTION) {
+            Toast.makeText(this, "你已完成全部内容", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean isChecked = false;
-        for (RadioButton button:answerBtn) {
-            if(button.isChecked()) isChecked = true;
+        for (RadioButton button : answerBtn) {
+            if (button.isChecked()) isChecked = true;
         }
-        if(!isChecked){
-            Toast.makeText(this,"请选择一个选项",Toast.LENGTH_SHORT).show();
-        }else{
+        if (!isChecked) {
+            Toast.makeText(this, "请选择一个选项", Toast.LENGTH_SHORT).show();
+        } else {
             nextAnswer();
         }
     }
 
-    private void updateQuestion(){
-        int random = (int)(Math.random() * list.size());
+    private void updateQuestion() {
+        int random = (int) (Math.random() * list.size());
         qoc_select q = list.get(random);
-        if(q == null)  return;
+        if (q == null) return;
         title.setText(index + "/" + TOTAL_QUESTION);
         question.setText(q.getQuestion());
         answerBtn[0].setText(q.getAnswerA());
@@ -179,18 +198,18 @@ public class AnswerSelectActivity extends AppCompatActivity {
         group.clearCheck();
     }
 
-    private void nextAnswer(){
-        if(answerBtn[checkedIndex].getText().toString().compareTo(rightAnswer) == 0){
+    private void nextAnswer() {
+        if (answerBtn[checkedIndex].getText().toString().compareTo(rightAnswer) == 0) {
             rightNum++;
-            Log.i("qoc","right");
-        }else{
+            Log.i("qoc", "right");
+        } else {
             wrongNum++;
-            Log.i("qoc","wrong");
+            Log.i("qoc", "wrong");
         }
         updateQuestion();
     }
 
-    private class qoc_select{
+    private class qoc_select {
         private String question;
         private String answerA;
         private String answerB;
@@ -199,7 +218,7 @@ public class AnswerSelectActivity extends AppCompatActivity {
         private String answerE;
         private String rightAnswer;
 
-        public qoc_select(String question_, String answerA_, String answerB_,String answerC_,String answerD_,String answerE_, String rightAnswer_){
+        public qoc_select(String question_, String answerA_, String answerB_, String answerC_, String answerD_, String answerE_, String rightAnswer_) {
             question = question_;
             answerA = answerA_;
             answerB = answerB_;

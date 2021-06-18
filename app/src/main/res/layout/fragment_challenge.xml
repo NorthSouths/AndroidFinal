@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/lable"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:layout_marginTop="88dp"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text="快来选择你的挑战吧"
+        android:text="请选择练习的内容"
         android:textColor="#7AC81E"
         android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/numeracyBtn"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_marginTop="104dp"
-        android:text="数理逻辑"
+        android:text="随机选择"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -33,29 +31,21 @@
         app:layout_constraintTop_toBottomOf="@+id/lable" />
 
     <Button
-        android:id="@+id/thinkingBtn"
+        android:id="@+id/random_practice_Btn"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_marginTop="40dp"
-        android:text="批判思维"
+        android:text="随机出题"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numeracyBtn" />
+         />
 
     <Button
         android:id="@+id/literatureBtn"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:text="文化常识"
+        android:text="按章节练习"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thinkingBtn"
-        app:layout_constraintVertical_bias="0.137" />
+     />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

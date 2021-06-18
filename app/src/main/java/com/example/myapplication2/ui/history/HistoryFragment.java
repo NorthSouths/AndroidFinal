@@ -1,7 +1,5 @@
 package com.example.myapplication2.ui.history;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication2.R;
 import com.example.myapplication2.UserInfo;
-import com.example.myapplication2.database.DatabaseHelper;
-
-import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
     private ListView recordView;

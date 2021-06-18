@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,14 +30,17 @@ public class UserFragment extends Fragment {
     private Button modifyPwd;
     private Button logout;
     private Button instrument;
-
+    private TextView userNameTextView;
+    private String userInfo;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_user, container, false);
         modifyPwd = root.findViewById(R.id.modify_passwordBtn);
         logout = root.findViewById(R.id.logoutBtn);
         instrument = root.findViewById(R.id.instrumentBtn);
-
+        userNameTextView = root.findViewById(R.id.user_showinfo);
+        userInfo = UserInfo.getInstance(getContext()).getName();
+        userNameTextView.setText(userInfo);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

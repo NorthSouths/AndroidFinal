@@ -1,0 +1,6 @@
+注：本行为说明文字：   数据格式：题目        ;      题目章节   ;     选项1 ; 选项2 ; 选项3; 选项4; 正确答案
+Android智能手机平台是基于（ ）操作系统内核开发而来的;1;Windows;Unix;Chrome OS;Linux;Linux
+Android智能手机平台是基于（ ）程序语言来进行应用开发的;1;C#;Objective‒c;Java;Javascript;Java
+（ ）智能手机平台是开放源代码的。;1;Android;Windows Phone;  iOS;Symbian;Android
+开发人员基于android开发的应用程序，属于以下哪个层次？;1;应用程序（Application）层;应用程序框架（Application Framework）;本地框架JAVA运行环境（Libraries）层; Linux内核与驱动层;应用程序（Application）层
+下列哪个不是Intent的功能？;6;封装了程序的启动意图;用于启动组件;交换数据;只用于启动Activity;只用于启动Activity
