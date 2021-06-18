@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="请选择练习的内容"
-        android:textColor="#7AC81E"
+        android:textColor="#005D70"
         android:textSize="24sp"
         android:textStyle="bold" />
 
