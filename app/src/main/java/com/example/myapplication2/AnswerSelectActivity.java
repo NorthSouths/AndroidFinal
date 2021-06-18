@@ -17,33 +17,44 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication2.dao.DatabaseHelper;
 import com.example.myapplication2.dao.QuestionDao;
+import com.example.myapplication2.dao.RecordDao;
 import com.example.myapplication2.data.Question;
+import com.example.myapplication2.data.Record;
+import com.example.myapplication2.data.UserAnswerResult;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 
 public class AnswerSelectActivity extends AppCompatActivity {
-    private TextView question;
+    private TextView questionTextView;
     private TextView title;
     private RadioGroup group;
-    private RadioButton[] answerBtn = new RadioButton[5];
+    private RadioButton[] answerBtn = new RadioButton[4];
     private Button submit;
     private Button next;
 
-    private ArrayList<qoc_select> list = new ArrayList<>();
     private int index = 1;
-    private String rightAnswer;
+    private String currentRightAnswer = "";
+    private Question currentQuestion = null;
     private int rightNum;
     private int wrongNum;
     private int checkedIndex;
-    private String chosenType = "随机出题";
+    private String chosenType;
     private int chosenChapter;
-    private int totalQuestionNum = 5;
-    private int TOTAL_QUESTION = 5; //测试用数据
-    private String type = "Numerancy";
+    private int chosenQuestionNum = 5;
+    private int realQuestionNum = 5; //测试用数据
+    private QuestionDao questionDao; //DAO层
+    private RecordDao recordDao;
+    private List<Question> questions;
+    private List<UserAnswerResult> userAnswerResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,52 +66,92 @@ public class AnswerSelectActivity extends AppCompatActivity {
             if (bundle.containsKey("type")) {
                 chosenType = (String) bundle.get("type");
             }
+            if (bundle.containsKey("chapter")) {
+                chosenChapter = (int) bundle.get("chapter");
+            }
         }
         setContentView(R.layout.activity_answer_select);
-
-        // 是否要对章节来计算？
-        QuestionDao questionDao = new QuestionDao(getBaseContext());
-        int count = questionDao.getTotalQuestionCount();
-        Log.w("测试", String.valueOf(count)); //测试通过。
-        List<Integer> li = new ArrayList<Integer>();
-        li.add(2);
-        List<Question> list1 =questionDao.getQuestionList(li);
-
-        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(), "qoc");
-        SQLiteDatabase db = helper.getReadableDatabase();
-
-
-        try {
-            Cursor cursor = db.query("Numeracy", null, null, null, null, null, null);
-            while (cursor.moveToNext()) {
-                String q = cursor.getString(cursor.getColumnIndex("question"));
-                String a1 = cursor.getString(cursor.getColumnIndex("answerA"));
-                String a2 = cursor.getString(cursor.getColumnIndex("answerB"));
-                String a3 = cursor.getString(cursor.getColumnIndex("answerC"));
-                String a4 = cursor.getString(cursor.getColumnIndex("answerD"));
-                String a5 = cursor.getString(cursor.getColumnIndex("answerE"));
-                String ra = cursor.getString(cursor.getColumnIndex("rightAnswer"));
-                list.add(new qoc_select(q, a1, a2, a3, a4, a5, ra));
-            }
-            cursor.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        rightNum = 0;
-        wrongNum = 0;
-        question = findViewById(R.id.question2);
+        questionTextView = findViewById(R.id.challenge_question_content);
         group = findViewById(R.id.answerGroup);
         answerBtn[0] = findViewById(R.id.answerA);
         answerBtn[1] = findViewById(R.id.answerB);
         answerBtn[2] = findViewById(R.id.answerC);
         answerBtn[3] = findViewById(R.id.answerD);
-        answerBtn[4] = findViewById(R.id.answerE);
-        submit = findViewById(R.id.submit2);
-        next = findViewById(R.id.next2);
-        title = findViewById(R.id.title2);
+        submit = findViewById(R.id.challenge_submit);
+        next = findViewById(R.id.challenge_next);
+        title = findViewById(R.id.challenge_title);
+
+        questionDao = new QuestionDao(getBaseContext()); //实例化DAO层。
+        recordDao = new RecordDao(getBaseContext());
+        questions = new ArrayList<Question>();
+        userAnswerResults = new ArrayList<UserAnswerResult>();
+        // 我们依据传进来的Type，来进行随机测试或按章节测试。
+        // 预定的测试类型为 “random” 或 “chapter”
+
+        switch (chosenType) {
+            case "random":
+                //随机测试，首先要获得随机的题目数量。这是用文件来读取的。
+                chosenQuestionNum = getRandomQuestionNumber();
+                //下一步需要调用DAO层，获取题库中题目的数量。
+                int totalQuestionNum = questionDao.getTotalQuestionCount();
+                if (chosenQuestionNum > totalQuestionNum) {
+                    Log.w("xu", "题目不足，希望不要这样。");
+                    chosenQuestionNum = totalQuestionNum;
+                    questions = questionDao.getAllQuestion();
+                } else {
+                    // 生成不重复的随机数。
+
+                    Set<Integer> randomSet = new HashSet<>();
+                    Random r = new Random();
+                    r.setSeed(System.currentTimeMillis());
+                    while (randomSet.size() != chosenQuestionNum) {
+                        int number = r.nextInt(totalQuestionNum) + 1;
+                        randomSet.add(number);
+                    }
+                    List<Integer> randomList = new ArrayList<Integer>(randomSet);
+
+                    questions = questionDao.getQuestionList(randomList);
+                    if (questions == null) {
+                        Toast.makeText(AnswerSelectActivity.this, "严重错误，没有取到题目", Toast.LENGTH_LONG).show();
+                        return;
+                    } else {
+                        realQuestionNum = questions.size();
+                    }
+                }
+
+                break;
+            case "chapter":
+
+                break;
+            default:
+        }
+
+        // 现在，我们有了如下内容：
+        // 这次要测试的题目列表——questions
+        // 这次题目的总个数 —— realQuestionNum
+        // 还有吗？
+        // 开始整活
+        if (questions.size() == 0) {
+            Toast.makeText(AnswerSelectActivity.this, "还没做范围查询呢！", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        // 是否要对章节来计算？
+       /* QuestionDao questionDao = new QuestionDao(getBaseContext());
+        int count = questionDao.getTotalQuestionCount();
+        Log.w("测试", String.valueOf(count)); //测试通过。
+        List<Integer> li = new ArrayList<Integer>();
+        li.add(2);
+        List<Question> list1 = questionDao.getQuestionList(li);
+*/
+
+        // 此时 我们的Questions里边就应该有了内容。
+
+        rightNum = 0;
+        wrongNum = 0;
 
         updateQuestion();
-
+        // 绑定按钮变化的事件。实时监测用户的选择
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -112,33 +163,74 @@ public class AnswerSelectActivity extends AppCompatActivity {
                     checkedIndex = 2;
                 } else if (checkedId == answerBtn[3].getId()) {
                     checkedIndex = 3;
-                } else if (checkedId == answerBtn[4].getId()) {
-                    checkedIndex = 4;
                 }
             }
-
-            ;
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (answerBtn[checkedIndex].getText().toString().compareTo(rightAnswer) == 0) {
+                if (index != realQuestionNum) {
+                    // 没有做完的提醒。
+                   /* AlertDialog.Builder builder = new AlertDialog.Builder(AnswerSelectActivity.this);
+                    builder.setTitle("警告");
+                    builder.setMessage("本组题目还没有做完，确定要提交嘛？");
+
+                    builder.setPositiveButton("确定提交", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            ;//继续提交就行了
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            return;
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();*/
+                }
+
+
+                // 这里可以加一个防误触。index != realQuestionNum,弹出对话框来询问。
+                String userAnswer = answerBtn[checkedIndex].getText().toString();
+                // 最后一道题的内容，是在提交按钮判别的。
+                if (userAnswer.compareTo(currentRightAnswer) == 0) {
                     rightNum++;
+                    Toast.makeText(AnswerSelectActivity.this, "回答正确", Toast.LENGTH_LONG).show();
                     Log.i("qoc", "right");
                 } else {
                     wrongNum++;
+                    Toast.makeText(AnswerSelectActivity.this, "回答错误，正确答案为" + currentRightAnswer, Toast.LENGTH_SHORT).show();
                     Log.i("qoc", "wrong");
                 }
+                UserAnswerResult userAnswerResult = new UserAnswerResult(currentQuestion.getQuestionID(), userAnswer);
+                userAnswerResults.add(userAnswerResult);
+                if (index != realQuestionNum) {
+                    // 把没答题的也加进去
+                    for (int i = index - 1; i < realQuestionNum; i++) {
+                        userAnswerResults.add(new UserAnswerResult(questions.get(i).getQuestionID(), null));
+                    }
+                }
+
                 UserInfo info = UserInfo.getInstance(getBaseContext());
-                int score = Math.max(rightNum * 5 - wrongNum * 2, 0);
+                int score = (int) (rightNum / (double) realQuestionNum * 100);
                 Date date = new Date();
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 String time = format.format(date);
-                UserInfo.Record record = info.genRecord(type, time, score);
-                info.storageRecord(record);
-                String msg = "非常棒" + info.getName() + ", 你已经完成该乐园中的全部内容，你做出了 "
-                        + rightNum + " 个正确答案和 " + wrongNum + " 个错误答案 \n 在此乐园里，你最终获得 " + info.getScore() + " 个经验豆";
+                Record record = new Record(info.getName(), time, score);
+                recordDao.storageRecord(record);
+
+                int currentGroupID = recordDao.getAutpIncreatedRecordGroupID();
+                if (currentGroupID == 0) {
+                    Toast.makeText(AnswerSelectActivity.this, "严重错误，自增ID不正确", Toast.LENGTH_SHORT).show();
+                }
+                recordDao.storageUserAnswer(currentGroupID, info.getName(), userAnswerResults);
+                String msg = "完了！完了！" + info.getName() + ", 你已经做完了该练习中的全部内容，你做出了 "
+                        + rightNum + " 个正确答案和 " + wrongNum + " 个错误答案 \n 王峥老师送你 " + score + " 个经验豆！！！";
                 new AlertDialog.Builder(AnswerSelectActivity.this).setTitle("Tip!").setMessage(msg)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -152,109 +244,88 @@ public class AnswerSelectActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onNext();
+                if (index > realQuestionNum) {
+                    Toast.makeText(AnswerSelectActivity.this, "你已完成全部内容", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                boolean isChecked = false;
+                for (RadioButton button : answerBtn) {
+                    if (button.isChecked()) isChecked = true;
+                }
+                if (!isChecked) {
+                    Toast.makeText(AnswerSelectActivity.this, "请选择一个选项", Toast.LENGTH_SHORT).show();
+                } else {
+                    nextAnswer();
+                }
             }
         });
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i("qoc", "answer activity is destroyed");
-    }
-
-    private void onNext() {
-        if (index > TOTAL_QUESTION) {
-            Toast.makeText(this, "你已完成全部内容", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        boolean isChecked = false;
-        for (RadioButton button : answerBtn) {
-            if (button.isChecked()) isChecked = true;
-        }
-        if (!isChecked) {
-            Toast.makeText(this, "请选择一个选项", Toast.LENGTH_SHORT).show();
-        } else {
-            nextAnswer();
-        }
-    }
-
+    //此函数负责绘制界面，还有更新正确答案？
     private void updateQuestion() {
-        int random = (int) (Math.random() * list.size());
-        qoc_select q = list.get(random);
-        if (q == null) return;
-        title.setText(index + "/" + TOTAL_QUESTION);
-        question.setText(q.getQuestion());
-        answerBtn[0].setText(q.getAnswerA());
-        answerBtn[1].setText(q.getAnswerB());
-        answerBtn[2].setText(q.getAnswerC());
-        answerBtn[3].setText(q.getAnswerD());
-        answerBtn[4].setText(q.getAnswerE());
-        rightAnswer = q.getRightAnswer();
+        String titleStr = String.valueOf(index) + "/" + String.valueOf(realQuestionNum);
+        title.setText(titleStr); //设置标题
+        this.currentQuestion = questions.get(index - 1);
+        questionTextView.setText(currentQuestion.getQuestionContent());
+        answerBtn[0].setText(currentQuestion.getChoiceA());
+        answerBtn[1].setText(currentQuestion.getChoiceB());
+        answerBtn[2].setText(currentQuestion.getChoiceC());
+        answerBtn[3].setText(currentQuestion.getChoiceD());
+        this.currentRightAnswer = currentQuestion.getCorrectChoice();
         index++;
-        list.remove(random);
-        group.clearCheck();
         group.clearCheck();
     }
 
     private void nextAnswer() {
-        if (answerBtn[checkedIndex].getText().toString().compareTo(rightAnswer) == 0) {
+        String userAnswer = answerBtn[checkedIndex].getText().toString();
+        if (userAnswer.compareTo(this.currentRightAnswer) == 0) {
             rightNum++;
+            Toast.makeText(AnswerSelectActivity.this, "回答正确", Toast.LENGTH_LONG).show();
             Log.i("qoc", "right");
         } else {
             wrongNum++;
+            Toast.makeText(AnswerSelectActivity.this, "回答错误，正确答案为" + currentRightAnswer, Toast.LENGTH_LONG).show();
             Log.i("qoc", "wrong");
         }
+        UserAnswerResult userAnswerResult = new UserAnswerResult(currentQuestion.getQuestionID(), userAnswer);
+        this.userAnswerResults.add(userAnswerResult);
         updateQuestion();
     }
 
-    private class qoc_select {
-        private String question;
-        private String answerA;
-        private String answerB;
-        private String answerC;
-        private String answerD;
-        private String answerE;
-        private String rightAnswer;
-
-        public qoc_select(String question_, String answerA_, String answerB_, String answerC_, String answerD_, String answerE_, String rightAnswer_) {
-            question = question_;
-            answerA = answerA_;
-            answerB = answerB_;
-            answerC = answerC_;
-            answerD = answerD_;
-            answerE = answerE_;
-            rightAnswer = rightAnswer_;
+    private int getRandomQuestionNumber() {
+        int result = 5; //默认5个题。
+        FileInputStream fis = null;
+        byte[] buffer = null;
+        try {
+            fis = openFileInput("questionNum");
+            buffer = new byte[fis.available()];
+            fis.read(buffer);
+        } catch (Exception e) {
+            Toast.makeText(AnswerSelectActivity.this, "文件不存在,使用默认5道题", Toast.LENGTH_SHORT).show();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
-        public String getQuestion() {
-            return question;
+        if (buffer != null) {
+            String data = new String(buffer);
+            String datatype = data.split(" ")[0];
+            String num = data.split(" ")[1];
+            //randomQuestionNum 随机题目的个数。
+            if (datatype.trim().equals("randomQuestionNum")) {
+                result = Integer.parseInt(num.trim());
+            }
+        } else {
+            result = 5;
         }
-
-        public String getAnswerA() {
-            return answerA;
-        }
-
-        public String getAnswerB() {
-            return answerB;
-        }
-
-        public String getAnswerC() {
-            return answerC;
-        }
-
-        public String getAnswerD() {
-            return answerD;
-        }
-
-        public String getAnswerE() {
-            return answerE;
-        }
-
-        public String getRightAnswer() {
-            return rightAnswer;
-        }
+        return result;
     }
+
+
 }
 

@@ -3,4 +3,14 @@
     <string name="title_challenge">挑战</string>
     <string name="title_history">历史</string>
     <string name="title_user">用户</string>
+    <string-array name="chapter">
+        <item>1 Android系统与开发环境</item>
+        <item>2 基本控件</item>
+        <item>3 布局管理器</item>
+        <item>4 高级控件</item>
+        <item>5 Activity</item>
+        <item>6 Intent</item>
+        <item>8 用户资源的使用</item>
+        <item>9 通知、对话框与警告</item>
+    </string-array>
 </resources>

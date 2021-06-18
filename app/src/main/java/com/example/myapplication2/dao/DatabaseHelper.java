@@ -18,22 +18,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private boolean numTableCreated = false;
     private boolean thinkTableCreated = false;
     private boolean literatureTableCreated = false;
-    private boolean recordTableCreated = false;
 
 
-     static final String QUESTIONTABLE = "Question";
-     static final String ANSWERTABLE = "Answer";
-     static final String QUESTIONID = "question_id";
-     static final String CONTENT = "question_content";
-     static final String CHAPTER = "question_chapter";
-     static final String CHOICEA = "choiceA";
-     static final String CHOICEB = "choiceB";
-     static final String CHOICEC = "choiceC";
-     static final String CHOICED = "choiceD";
-     static final String ANSWER = "question_answer";
+    static final String QUESTIONTABLE = "Question";
+    static final String ANSWERTABLE = "Answer";
+    static final String QUESTIONID = "question_id";
+    static final String CONTENT = "question_content";
+    static final String CHAPTER = "question_chapter";
+    static final String CHOICEA = "choiceA";
+    static final String CHOICEB = "choiceB";
+    static final String CHOICEC = "choiceC";
+    static final String CHOICED = "choiceD";
+    static final String ANSWER = "question_answer";
     // 我们简化，只有单选题目。
     private boolean questionTableCreated = false; //题目表 记录题目 Question(QUESTION_ID INT, QUESTION_CONTENT, CHOICEA,CHOICEB,CHOICEC,CHOICED)
     private boolean answerTableCreated = false; // 答案表 记录答案。 Answer(QUESTION_ID INT, ANSWER VARCHAR)
+    private boolean recordTableCreated = false; // record表，我们借用一下它的逻辑，但是修改为
+    // Record(group_id, user,time,score)
+    private boolean userAnswerTableCreated = false;
+
+    static final String RECORDTABLE = "Record";
+    static final String USERANSWERTABLE = "UserAnswer";
+    static final String GROUPID = "group_id";
+    static final String USER = "user";
+    static final String TIME = "time";
+    static final String SCORE = "score";
+    static final String YOURANSWER = "your_answer";
 
 
     private Context context;
@@ -73,28 +83,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w("测试","更新你个头啊");
+        Log.w("测试", "更新你个头啊");
     }
 
     private void checkTableExist(SQLiteDatabase db) {
         Log.i("QOC", "create table");
         Cursor cursor = db.rawQuery("select name from sqlite_master where type ='table'", null);
+        boolean flag = false;
         while (cursor.moveToNext()) {
             String name = cursor.getString(0);
             if (name.equals("User")) {
                 userTableCreated = true;
-            } else if (name.equals("Numeracy")) {
-                numTableCreated = true;
-            } else if (name.equals("Thinking")) {
-                thinkTableCreated = true;
-            } else if (name.equals("Literature")) {
-                literatureTableCreated = true;
-            } else if (name.equals("Record")) {
+            } else if (name.equals(RECORDTABLE)) {
                 recordTableCreated = true;
-            } else if (name.equals("Question")) {
+            } else if (name.equals(QUESTIONTABLE)) {
                 questionTableCreated = true;
-            } else if (name.equals("Answer")) {
+            } else if (name.equals(ANSWERTABLE)) {
                 answerTableCreated = true;
+            } else if (name.equals(USERANSWERTABLE)) {
+                userAnswerTableCreated = true;
             }
         }
 
@@ -104,29 +111,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             userTableCreated = true;
         }
 
-        if (!numTableCreated) {
-            initTable(db, "Numeracy");
-            numTableCreated = true;
+        if (!userAnswerTableCreated) {
+            String sql = "create table " +
+                    USERANSWERTABLE +
+                    "(" +
+                    GROUPID + " Integer , " +
+                    QUESTIONID + " Integer ," +
+                    USER + " varchar(65535), " +
+                    YOURANSWER + " varchar(65535) " +
+                    ")";
+            db.execSQL(sql);
+            userAnswerTableCreated = true;
         }
-
-        if (!thinkTableCreated) {
-            initTable(db, "Thinking");
-            thinkTableCreated = true;
-        }
-
-        if (!literatureTableCreated) {
-            initTable(db, "Literature");
-            literatureTableCreated = true;
-        }
-
+        // 记录用户的答案。
         if (!recordTableCreated) {
-            String sql = "create table Record(user varchar(10),type varchar(10),time varchar(20),score int)";
+            String sql = "create table " +
+                    RECORDTABLE +
+                    "(" +
+                    GROUPID + " INTEGER primary key autoincrement, " +
+                    USER + " varchar(65535), " +
+                    TIME + " varchar(65535), " +
+                    SCORE + " int" +
+                    ")";
             db.execSQL(sql);
             recordTableCreated = true;
         }
         //题目表 记录题目 Question(QUESTION_ID INT, QUESTION_CONTENT, CHOICEA,CHOICEB,CHOICEC,CHOICED)
         if (!questionTableCreated) {
-            String sql = "create table Question(" +
+            String sql = "create table " +
+                    QUESTIONTABLE +
+                    "(" +
                     QUESTIONID + " INTEGER primary key autoincrement, " + //主键递增
                     CONTENT + " varchar(65535), " + //题干
                     CHAPTER + " int, " + //章节
@@ -136,17 +150,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     CHOICED + " varchar(65535) " +//选项
                     ")";
             db.execSQL(sql);
+            flag = true;
             questionTableCreated = true;
         }
         if (!answerTableCreated) {
-            String sql = "create table Answer(" +
+            String sql = "create table " +
+                    ANSWERTABLE +
+                    "(" +
                     QUESTIONID + " INTEGER primary key autoincrement, " + //主键递增
                     ANSWER + " varchar(65535) " + //题干
                     ")";
             db.execSQL(sql);
+            flag = true;
             answerTableCreated = true;
         }
-        initQuestionTables(db);
+        // 读取数据。这个应该在表不存在的时候再调用吧。
+        if (flag) {
+            initQuestionTables(db);
+        }
+
     }
 
 
@@ -248,8 +270,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

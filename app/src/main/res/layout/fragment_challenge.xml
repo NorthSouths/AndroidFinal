@@ -14,38 +14,29 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="请选择练习的内容"
-        android:textColor="#005D70"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/numeracyBtn"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="104dp"
-        android:text="随机选择"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lable" />
 
     <Button
         android:id="@+id/random_practice_Btn"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
+        style="@style/RoundedCornerBtnWithRightArrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="随机出题"
-        android:textStyle="bold"
-         />
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
 
     <Button
         android:id="@+id/literatureBtn"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
+        style="@style/RoundedCornerBtnWithRightArrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="按章节练习"
-        android:textStyle="bold"
-     />
-
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
 
 </LinearLayout>

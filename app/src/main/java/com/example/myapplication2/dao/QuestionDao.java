@@ -20,7 +20,6 @@ public class QuestionDao {
 
     public QuestionDao(Context context) {
         dbhelper = DatabaseHelper.getInstance(context, DBName);
-
     }
 
 
@@ -93,12 +92,51 @@ public class QuestionDao {
             chapter = questionCursor.getInt(questionCursor.getColumnIndex(DatabaseHelper.CHAPTER));
             correct = answerCursor.getString(answerCursor.getColumnIndex(DatabaseHelper.ANSWER));
 
-            Question question = new Question(i,content,chapter,choiceA,choiceB,choiceC,choiceD,correct);
+            Question question = new Question(i, content, chapter, choiceA, choiceB, choiceC, choiceD, correct);
             resultLists.add(question);
         }
-    return resultLists;
+        return resultLists;
 
     }
-    // 还有啥？ 调用dbhelper的更新(不是升级)数据库功能？
 
+    // 还有啥？ 调用dbhelper的更新(不是升级)数据库功能？
+    // 4. queryAll。返回全部的题库。
+    public List<Question> getAllQuestion() {
+        List<Question> resultLists = new ArrayList<Question>();
+        db = dbhelper.getReadableDatabase(); //这也应该是只读的。
+        String content = null, choiceA = null, choiceB = null, choiceC = null, choiceD = null, correct = null;
+        int id = 0, chapter = 0;
+        Cursor questionCursor = db.query(DatabaseHelper.QUESTIONTABLE,
+                new String[]{DatabaseHelper.QUESTIONID,
+                        DatabaseHelper.CONTENT,
+                        DatabaseHelper.CHAPTER,
+                        DatabaseHelper.CHOICEA,
+                        DatabaseHelper.CHOICEB,
+                        DatabaseHelper.CHOICEC,
+                        DatabaseHelper.CHOICED,
+                }, null, null, null, null, null, null);
+        Cursor answerCursor = db.query(DatabaseHelper.ANSWERTABLE, new String[]{DatabaseHelper.ANSWER}
+                , null, null, null, null, null, null);
+        if (answerCursor.getCount() != questionCursor.getCount()) {
+            // 不应该发生的内容 题目和答案应当一致。
+            return null;
+        }
+
+        questionCursor.moveToFirst();
+        answerCursor.moveToFirst();
+        for (int i = 0; i < questionCursor.getCount(); i++) {
+            id = questionCursor.getInt(questionCursor.getColumnIndex(DatabaseHelper.QUESTIONID));
+            content = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CONTENT));
+            choiceA = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICEA));
+            choiceB = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICEB));
+            choiceC = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICEC));
+            choiceD = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICED));
+            chapter = questionCursor.getInt(questionCursor.getColumnIndex(DatabaseHelper.CHAPTER));
+            correct = answerCursor.getString(answerCursor.getColumnIndex(DatabaseHelper.ANSWER));
+        }
+        Question question = new Question(id, content, chapter, choiceA, choiceB, choiceC, choiceD, correct);
+        resultLists.add(question);
+
+        return resultLists;
+    }
 }

@@ -27,8 +27,6 @@
 
         <activity android:name=".AnswerSelectActivity"></activity>
 
-        <activity android:name=".AnswerInputActivity"></activity>
-
         <activity android:name=".ModifyPwdActivity"></activity>
 
         <activity android:name=".InstrumentActivity"></activity>
