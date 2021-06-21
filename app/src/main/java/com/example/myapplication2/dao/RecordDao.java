@@ -44,7 +44,7 @@ public class RecordDao {
         return a;
     }
 
-    // 3. 为了“乐园”读取数据。这个好像不实现也行
+    // 3. 为了“乐园”读取数据。这个好像暂时不实现也行
 
     // 4. 存自己的作答。
     public void storageUserAnswer(int groupID, String user, List<UserAnswerResult> userAnswerResults) {

@@ -55,12 +55,13 @@ public class AnswerSelectActivity extends AppCompatActivity {
     private RecordDao recordDao;
     private List<Question> questions;
     private List<UserAnswerResult> userAnswerResults;
+    private long exitTime; //"再按一次返回"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("qoc", "answer activity select create");
         super.onCreate(savedInstanceState);
-
+        exitTime = System.currentTimeMillis();
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             if (bundle.containsKey("type")) {
@@ -104,15 +105,17 @@ public class AnswerSelectActivity extends AppCompatActivity {
                     Set<Integer> randomSet = new HashSet<>();
                     Random r = new Random();
                     r.setSeed(System.currentTimeMillis());
+                    String testNum = "全部：" + String.valueOf(totalQuestionNum) + "\n";
                     while (randomSet.size() != chosenQuestionNum) {
                         int number = r.nextInt(totalQuestionNum) + 1;
                         randomSet.add(number);
+                        testNum += String.valueOf(number) + " ";
                     }
                     List<Integer> randomList = new ArrayList<Integer>(randomSet);
-
+                    Toast.makeText(AnswerSelectActivity.this, testNum, Toast.LENGTH_SHORT).show(); //输出题目ID。注意，由于set是无序的，顺序不可能跟输出的顺序一致。
                     questions = questionDao.getQuestionList(randomList);
                     if (questions == null) {
-                        Toast.makeText(AnswerSelectActivity.this, "严重错误，没有取到题目", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AnswerSelectActivity.this, "严重错误，没有取到题目", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         realQuestionNum = questions.size();
@@ -121,7 +124,8 @@ public class AnswerSelectActivity extends AppCompatActivity {
 
                 break;
             case "chapter":
-
+                questions = questionDao.getQuestionListByChapter(chosenChapter);
+                chosenQuestionNum = realQuestionNum = questions.size();
                 break;
             default:
         }
@@ -132,18 +136,9 @@ public class AnswerSelectActivity extends AppCompatActivity {
         // 还有吗？
         // 开始整活
         if (questions.size() == 0) {
-            Toast.makeText(AnswerSelectActivity.this, "还没做范围查询呢！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AnswerSelectActivity.this, "错误，未获取到题目", Toast.LENGTH_SHORT).show();
             finish();
         }
-
-        // 是否要对章节来计算？
-       /* QuestionDao questionDao = new QuestionDao(getBaseContext());
-        int count = questionDao.getTotalQuestionCount();
-        Log.w("测试", String.valueOf(count)); //测试通过。
-        List<Integer> li = new ArrayList<Integer>();
-        li.add(2);
-        List<Question> list1 = questionDao.getQuestionList(li);
-*/
 
         // 此时 我们的Questions里边就应该有了内容。
 
@@ -170,74 +165,28 @@ public class AnswerSelectActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (index != realQuestionNum) {
-                    // 没有做完的提醒。
-                   /* AlertDialog.Builder builder = new AlertDialog.Builder(AnswerSelectActivity.this);
-                    builder.setTitle("警告");
-                    builder.setMessage("本组题目还没有做完，确定要提交嘛？");
+                // 点击提交进行警告。
 
-                    builder.setPositiveButton("确定提交", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            ;//继续提交就行了
-                        }
-                    });
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            return;
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();*/
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(AnswerSelectActivity.this);
+                builder.setTitle("警告");
+                builder.setMessage("确定要提交嘛？");
 
-
-                // 这里可以加一个防误触。index != realQuestionNum,弹出对话框来询问。
-                String userAnswer = answerBtn[checkedIndex].getText().toString();
-                // 最后一道题的内容，是在提交按钮判别的。
-                if (userAnswer.compareTo(currentRightAnswer) == 0) {
-                    rightNum++;
-                    Toast.makeText(AnswerSelectActivity.this, "回答正确", Toast.LENGTH_LONG).show();
-                    Log.i("qoc", "right");
-                } else {
-                    wrongNum++;
-                    Toast.makeText(AnswerSelectActivity.this, "回答错误，正确答案为" + currentRightAnswer, Toast.LENGTH_SHORT).show();
-                    Log.i("qoc", "wrong");
-                }
-                UserAnswerResult userAnswerResult = new UserAnswerResult(currentQuestion.getQuestionID(), userAnswer);
-                userAnswerResults.add(userAnswerResult);
-                if (index != realQuestionNum) {
-                    // 把没答题的也加进去
-                    for (int i = index - 1; i < realQuestionNum; i++) {
-                        userAnswerResults.add(new UserAnswerResult(questions.get(i).getQuestionID(), null));
+                builder.setPositiveButton("确定提交", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        continueSubmit();//继续提交就行了
                     }
-                }
-
-                UserInfo info = UserInfo.getInstance(getBaseContext());
-                int score = (int) (rightNum / (double) realQuestionNum * 100);
-                Date date = new Date();
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                String time = format.format(date);
-                Record record = new Record(info.getName(), time, score);
-                recordDao.storageRecord(record);
-
-                int currentGroupID = recordDao.getAutpIncreatedRecordGroupID();
-                if (currentGroupID == 0) {
-                    Toast.makeText(AnswerSelectActivity.this, "严重错误，自增ID不正确", Toast.LENGTH_SHORT).show();
-                }
-                recordDao.storageUserAnswer(currentGroupID, info.getName(), userAnswerResults);
-                String msg = "完了！完了！" + info.getName() + ", 你已经做完了该练习中的全部内容，你做出了 "
-                        + rightNum + " 个正确答案和 " + wrongNum + " 个错误答案 \n 王峥老师送你 " + score + " 个经验豆！！！";
-                new AlertDialog.Builder(AnswerSelectActivity.this).setTitle("Tip!").setMessage(msg)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                AnswerSelectActivity.this.finish();
-                            }
-                        }).show();
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        return;
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -262,6 +211,74 @@ public class AnswerSelectActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        exitTime = System.currentTimeMillis();
+        super.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出答题", Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void continueSubmit() {
+        String userAnswer = answerBtn[checkedIndex].getText().toString();
+        // 最后一道题的内容，是在提交按钮判别的。
+        boolean isChecked = false;
+        for (RadioButton button : answerBtn) {
+            if (button.isChecked()) isChecked = true;
+        }
+        if (!isChecked) {
+            userAnswer = "";
+        }
+        if (userAnswer.compareTo(currentRightAnswer) == 0) {
+            rightNum++;
+            Toast.makeText(AnswerSelectActivity.this, "回答正确", Toast.LENGTH_SHORT).show();
+            Log.i("qoc", "right");
+        } else {
+            wrongNum++;
+            Toast.makeText(AnswerSelectActivity.this, "回答错误，正确答案为" + currentRightAnswer, Toast.LENGTH_SHORT).show();
+            Log.i("qoc", "wrong");
+        }
+        UserAnswerResult userAnswerResult = new UserAnswerResult(currentQuestion.getQuestionID(), userAnswer);
+        userAnswerResults.add(userAnswerResult);
+        if (index != realQuestionNum) {
+            // 把没答题的也加进去
+            for (int i = index - 1; i < realQuestionNum; i++) {
+                userAnswerResults.add(new UserAnswerResult(questions.get(i).getQuestionID(), "")); //不要用null当数据库字段，用空字符串代表没有内容。
+            }
+        }
+
+        UserInfo info = UserInfo.getInstance(getBaseContext());
+        int score = (int) (rightNum / (double) realQuestionNum * 100);
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String time = format.format(date);
+        Record record = new Record(info.getName(), time, score);
+        recordDao.storageRecord(record);
+
+        int currentGroupID = recordDao.getAutpIncreatedRecordGroupID();
+        if (currentGroupID == 0) {
+            Toast.makeText(AnswerSelectActivity.this, "严重错误，自增ID不正确", Toast.LENGTH_SHORT).show();
+        }
+        recordDao.storageUserAnswer(currentGroupID, info.getName(), userAnswerResults);
+        String msg = "完了！完了！" + info.getName() + ", 你已经做完了该练习中的全部内容，你做出了 "
+                + rightNum + " 个正确答案和 " + wrongNum + " 个错误答案 \n 王峥老师送你 " + score + " 个经验豆！！！";
+        new AlertDialog.Builder(AnswerSelectActivity.this).setTitle("Tip!").setMessage(msg)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AnswerSelectActivity.this.finish();
+                    }
+                }).show();
+    }
+
     //此函数负责绘制界面，还有更新正确答案？
     private void updateQuestion() {
         String titleStr = String.valueOf(index) + "/" + String.valueOf(realQuestionNum);
@@ -281,11 +298,11 @@ public class AnswerSelectActivity extends AppCompatActivity {
         String userAnswer = answerBtn[checkedIndex].getText().toString();
         if (userAnswer.compareTo(this.currentRightAnswer) == 0) {
             rightNum++;
-            Toast.makeText(AnswerSelectActivity.this, "回答正确", Toast.LENGTH_LONG).show();
+            Toast.makeText(AnswerSelectActivity.this, "回答正确", Toast.LENGTH_SHORT).show();
             Log.i("qoc", "right");
         } else {
             wrongNum++;
-            Toast.makeText(AnswerSelectActivity.this, "回答错误，正确答案为" + currentRightAnswer, Toast.LENGTH_LONG).show();
+            Toast.makeText(AnswerSelectActivity.this, "回答错误，正确答案为" + currentRightAnswer, Toast.LENGTH_SHORT).show();
             Log.i("qoc", "wrong");
         }
         UserAnswerResult userAnswerResult = new UserAnswerResult(currentQuestion.getQuestionID(), userAnswer);

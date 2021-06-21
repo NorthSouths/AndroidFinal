@@ -87,7 +87,7 @@ public class ChallengeFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                startChallenge("chapter", checkedItem);
+                startChallenge("chapter", checkedItem + 1); // 注意这里，它是从0开始的
             }
         });
 

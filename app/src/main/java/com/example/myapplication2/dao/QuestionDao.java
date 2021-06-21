@@ -3,6 +3,7 @@ package com.example.myapplication2.dao;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.myapplication2.data.Question;
 
@@ -53,8 +54,6 @@ public class QuestionDao {
 
         //去两个数据库查询吧。
         // 别抱怨上来就getReadableDatabase 了
-
-        //两种方法都试试嘛。多看看。
         String content, choiceA, choiceB, choiceC, choiceD, correct;
         int chapter;
         for (int i : randomNumList) {
@@ -80,6 +79,7 @@ public class QuestionDao {
                     null);
             if (answerCursor.getCount() != 1 || questionCursor.getCount() != 1) {
                 // 不应该发生的内容。题目ID应不重复。
+                Log.w("xu", "不应该发生的情况。题目ID重复！");
                 return null;
             }
             questionCursor.moveToFirst();
@@ -94,6 +94,7 @@ public class QuestionDao {
 
             Question question = new Question(i, content, chapter, choiceA, choiceB, choiceC, choiceD, correct);
             resultLists.add(question);
+            // 注意，这里游标不用自动下移，但是范围查询可别忘了
         }
         return resultLists;
 
@@ -133,10 +134,51 @@ public class QuestionDao {
             choiceD = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICED));
             chapter = questionCursor.getInt(questionCursor.getColumnIndex(DatabaseHelper.CHAPTER));
             correct = answerCursor.getString(answerCursor.getColumnIndex(DatabaseHelper.ANSWER));
+            Question question = new Question(id, content, chapter, choiceA, choiceB, choiceC, choiceD, correct);
+            resultLists.add(question);
+            questionCursor.moveToNext();
+            answerCursor.moveToNext();
         }
-        Question question = new Question(id, content, chapter, choiceA, choiceB, choiceC, choiceD, correct);
-        resultLists.add(question);
 
+
+        return resultLists;
+    }
+
+    //5. 范围查询 本操作是为了按章节进行查找而准备的。
+    public List<Question> getQuestionListByChapter(int targetChapter) {
+        List<Question> resultLists = new ArrayList<Question>();
+        db = dbhelper.getReadableDatabase(); //这也应该是只读的。
+        String content, choiceA, choiceB, choiceC, choiceD, correct;
+        int chapter, id;
+        // 这次我们使用 rawQuery
+        // select Question.question_id, question_content, question_chapter, choiceA,choiceB,choiceC,choiceD,question_answer
+        // from Question inner join Answer on Question.question_id = Answer.question_id
+        // where Question.question_chapter = 2
+        String SQL = "Select " +
+                DatabaseHelper.QUESTIONTABLE + "." + DatabaseHelper.QUESTIONID + ", " + DatabaseHelper.CONTENT + ", " + DatabaseHelper.CHAPTER + ", " +
+                DatabaseHelper.CHOICEA + ", " + DatabaseHelper.CHOICEB + ", " + DatabaseHelper.CHOICEC + ", " + DatabaseHelper.CHOICED + ", " + DatabaseHelper.ANSWER + " " +
+                " from " + DatabaseHelper.QUESTIONTABLE + " inner join " + DatabaseHelper.ANSWERTABLE +
+                " on " + DatabaseHelper.QUESTIONTABLE + "." + DatabaseHelper.QUESTIONID + " = " + DatabaseHelper.ANSWERTABLE + "." + DatabaseHelper.QUESTIONID + " " +
+                "where " + DatabaseHelper.QUESTIONTABLE + "." + DatabaseHelper.CHAPTER + " = " + String.valueOf(targetChapter);
+        Cursor cursor = db.rawQuery(SQL, null);
+        if (cursor.getCount() == 0) {
+            Log.w("xu", "按章节做题读取到了不存在的章节。数据集还不够全");
+            return null;
+        }
+        cursor.moveToFirst();
+        for (int i = 0; i < cursor.getCount(); i++) {
+            id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.QUESTIONID));
+            content = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CONTENT));
+            choiceA = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CHOICEA));
+            choiceB = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CHOICEB));
+            choiceC = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CHOICEC));
+            choiceD = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CHOICED));
+            chapter = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.CHAPTER));
+            correct = cursor.getString(cursor.getColumnIndex(DatabaseHelper.ANSWER));
+            Question question = new Question(id, content, chapter, choiceA, choiceB, choiceC, choiceD, correct);
+            resultLists.add(question);
+            cursor.moveToNext();
+        }
         return resultLists;
     }
 }
