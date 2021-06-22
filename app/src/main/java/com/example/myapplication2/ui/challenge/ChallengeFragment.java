@@ -1,8 +1,10 @@
 package com.example.myapplication2.ui.challenge;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication2.AnswerSelectActivity;
+import com.example.myapplication2.InputQuestionActivity;
 import com.example.myapplication2.R;
 
 import java.util.HashMap;
@@ -22,10 +25,12 @@ import java.util.Map;
 public class ChallengeFragment extends Fragment {
 
     private Button randomPracticeBtn;
-    private Button literatureBtn;
+    private Button chapterPracticeBtn;
+    private Button addQuestionBtn;
     private int checkedItem;
     private String[] chapters;
     private Map<String, Integer> chapterMap;
+    private int inputQuesType = -1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,7 +42,10 @@ public class ChallengeFragment extends Fragment {
             chapterMap.put(chapters[i], Integer.parseInt(num));
         }
         randomPracticeBtn = root.findViewById(R.id.random_practice_Btn);
-        literatureBtn = root.findViewById(R.id.literatureBtn);
+        chapterPracticeBtn = root.findViewById(R.id.chapter_practice_Btn);
+        addQuestionBtn = root.findViewById(R.id.addQuestion);
+
+
         randomPracticeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,13 +53,21 @@ public class ChallengeFragment extends Fragment {
             }
         });
 
-        literatureBtn.setOnClickListener(new View.OnClickListener() {
+        chapterPracticeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 singleChoiceDialog();
                 //  startChallenge("chapter");
             }
         });
+
+        addQuestionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addQuestionDialog();
+            }
+        });
+
         return root;
     }
 
@@ -72,10 +88,7 @@ public class ChallengeFragment extends Fragment {
 
     public void singleChoiceDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
         builder.setTitle("请选择你想要练习的章节：");
-
-
         builder.setSingleChoiceItems(chapters, checkedItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -102,4 +115,55 @@ public class ChallengeFragment extends Fragment {
         dialog.show();                           //显示对话框
     }
 
+    public void addQuestionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("请选择你导入题目的方式：");
+
+        builder.setSingleChoiceItems(getResources().getStringArray(R.array.inuputQuestionMethod), checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(), "你选择了" + which, Toast.LENGTH_SHORT).show();
+                inputQuesType = which;
+            }
+        });
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (inputQuesType == 0) {
+                    //手动输入，跳转界面
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(), InputQuestionActivity.class);
+                    startActivity(intent);
+                } else {
+                    //从文件输入
+                    Toast.makeText(getContext(), "要从文件中读取，想办法实现", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    //intent.setDataAndType(Uri.fromFile(dir.getParentFile()), "file/*.txt");
+                    intent.setType("file/*.txt"); //华为手机mate7不支持
+                    intent.setType("text/plain");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(intent, 1001);
+
+                }
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();  //创建AlertDialog对象
+        dialog.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 1001) {//判断是否选择和Code判断
+            Uri uri = data.getData();//拿到路径
+        }
+    }
 }

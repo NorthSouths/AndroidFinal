@@ -1,5 +1,6 @@
 package com.example.myapplication2.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -229,4 +230,24 @@ public class QuestionDao {
         }
         return resultLists;
     }
+
+    //6. 添加一条题目记录。为了王峥老师的新需求，拼了
+    //读取文件的时候，自己前端处理去
+    public void insertQuestion(Question question) {
+        ContentValues questionValues = new ContentValues();
+        ContentValues answerValues = new ContentValues();
+        //id自动生成（+1）
+        db = dbhelper.getWritableDatabase();
+        questionValues.put(DatabaseHelper.CONTENT, question.getQuestionContent());
+        questionValues.put(DatabaseHelper.CHAPTER, question.getQuestionChapter());
+        questionValues.put(DatabaseHelper.CHOICEA, question.getChoiceA());
+        questionValues.put(DatabaseHelper.CHOICEB, question.getChoiceB());
+        questionValues.put(DatabaseHelper.CHOICEC, question.getChoiceC());
+        questionValues.put(DatabaseHelper.CHOICED, question.getChoiceD());
+        answerValues.put(DatabaseHelper.ANSWER, question.getCorrectChoice());
+        db.insert(DatabaseHelper.QUESTIONTABLE, null, questionValues);
+        db.insert(DatabaseHelper.ANSWERTABLE, null, answerValues);
+        db.close();
+    }
+
 }

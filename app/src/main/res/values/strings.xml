@@ -13,4 +13,9 @@
         <item>8 用户资源的使用</item>
         <item>9 通知、对话框与警告</item>
     </string-array>
+
+    <string-array name="inuputQuestionMethod">
+        <item>手动导入</item>
+        <item>从文件导入</item>
+    </string-array>
 </resources>

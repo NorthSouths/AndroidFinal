@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".InputQuestionActivity"
+            android:label="手动导入题库" />
+        <activity
             android:name=".ShowAnswerActivity"
-            android:label="查看解析"></activity>
+            android:label="查看解析" />
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

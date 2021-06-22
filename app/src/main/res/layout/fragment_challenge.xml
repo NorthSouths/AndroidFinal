@@ -31,7 +31,7 @@
 
 
     <Button
-        android:id="@+id/literatureBtn"
+        android:id="@+id/chapter_practice_Btn"
         style="@style/RoundedCornerBtnWithRightArrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,4 +39,13 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/addQuestion"
+        style="@style/RoundedCornerBtnWithRightArrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="导入题库"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
 </LinearLayout>
