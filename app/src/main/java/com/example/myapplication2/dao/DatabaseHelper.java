@@ -11,17 +11,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static DatabaseHelper instance;
     private boolean userTableCreated = false;
-    private boolean numTableCreated = false;
-    private boolean thinkTableCreated = false;
-    private boolean literatureTableCreated = false;
-
+    // 我们简化，只有单选题目。
+    private boolean questionTableCreated = false; //题目表 记录题目 Question(QUESTION_ID INT, QUESTION_CONTENT, CHOICEA,CHOICEB,CHOICEC,CHOICED)
+    private boolean answerTableCreated = false; // 答案表 记录答案。 Answer(QUESTION_ID INT, ANSWER VARCHAR)
+    private boolean recordTableCreated = false; // record表，我们借用一下它的逻辑，但是修改为
+    // Record(group_id, user,time,score)
+    private boolean userAnswerTableCreated = false;
 
     static final String QUESTIONTABLE = "Question";
     static final String ANSWERTABLE = "Answer";
+    static final String USERTABLE = "User";
     static final String QUESTIONID = "question_id";
     static final String CONTENT = "question_content";
     static final String CHAPTER = "question_chapter";
@@ -30,13 +34,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String CHOICEC = "choiceC";
     static final String CHOICED = "choiceD";
     static final String ANSWER = "question_answer";
-    // 我们简化，只有单选题目。
-    private boolean questionTableCreated = false; //题目表 记录题目 Question(QUESTION_ID INT, QUESTION_CONTENT, CHOICEA,CHOICEB,CHOICEC,CHOICED)
-    private boolean answerTableCreated = false; // 答案表 记录答案。 Answer(QUESTION_ID INT, ANSWER VARCHAR)
-    private boolean recordTableCreated = false; // record表，我们借用一下它的逻辑，但是修改为
-    // Record(group_id, user,time,score)
-    private boolean userAnswerTableCreated = false;
-
     static final String RECORDTABLE = "Record";
     static final String USERANSWERTABLE = "UserAnswer";
     static final String GROUPID = "group_id";
@@ -45,7 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String SCORE = "score";
     static final String YOURANSWER = "your_answer";
 
-
+    static final String NAME = "name";
+    static final String PHONENUM = "phonenum";
+    static final String EMAIL = "email";
+    static final String PASSWORD = "password";
     private Context context;
 
     public static synchronized DatabaseHelper getInstance(Context context, String name) {
@@ -92,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean flag = false;
         while (cursor.moveToNext()) {
             String name = cursor.getString(0);
-            if (name.equals("User")) {
+            if (name.equals(USERTABLE)) {
                 userTableCreated = true;
             } else if (name.equals(RECORDTABLE)) {
                 recordTableCreated = true;
@@ -106,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         if (!userTableCreated) {
-            String createUserTable = "create table User(name varchar(10),email varchar(10), password varchar(10),primary key(name))";
+            String createUserTable = "create table User(name varchar(65535), phonenum varchar(20), email varchar(65535), password varchar(65535), primary key(name))";
             db.execSQL(createUserTable);
             userTableCreated = true;
         }
@@ -174,11 +174,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void initQuestionTables(SQLiteDatabase db) {
         String dataFileName = "question.txt";
-        InputStreamReader inputReader = null;
+        InputStreamReader inputReader;
         try {
             inputReader = new InputStreamReader(context.getResources().getAssets().open(dataFileName));
             BufferedReader bufferdReader = new BufferedReader(inputReader);
-            String line = "";
+            String line;
             int id = 1;
             bufferdReader.readLine(); //跳过第一行的说明性文字
             while ((line = bufferdReader.readLine()) != null) {
@@ -221,54 +221,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
-    }
-
-    private void updateQuestionTables(SQLiteDatabase db) {
-        String sql = "drop table " + QUESTIONTABLE;
-        db.execSQL(sql);
-        sql = "drop table " + ANSWERTABLE;
-        db.execSQL(sql);
-        initQuestionTables(db);
-    }
-
-    private void initTable(SQLiteDatabase db, String tableName) {
-        String sql = "";
-        if (tableName.equals("Thinking") || tableName.equals("Literature")) {
-            sql = "create table " + tableName + "(id int,question text, answerA varchar(100)," +
-                    "answerB varchar(100),answerC varchar(100),answerD varchar(100),answerE varchar(100)," +
-                    "rightAnswer varchar(100),primary key(id))";
-        } else if (tableName.equals("Numeracy")) {
-            sql = "create table Numeracy(id int,question text, rightAnswer varchar(100),primary key(id))";
-        }
-        db.execSQL(sql);
-        String suffix = ".txt";
-        try {
-            InputStreamReader inputReader = new InputStreamReader(context.getResources().getAssets().open(tableName + suffix));
-            BufferedReader bufferdReader = new BufferedReader(inputReader);
-            String line = "";
-            int id = 1;
-            long row = 0;
-            while ((line = bufferdReader.readLine()) != null) {
-                String[] qa = line.split(";");
-                ContentValues values = new ContentValues();
-                values.put("id", id);
-                values.put("question", qa[0]);
-                if (tableName.equals("Thinking") || tableName.equals("Literature")) {
-                    values.put("answerA", qa[1]);
-                    values.put("answerB", qa[2]);
-                    values.put("answerC", qa[3]);
-                    values.put("answerD", qa[4]);
-                    values.put("answerE", qa[5]);
-                    values.put("rightAnswer", qa[6]);
-                } else {
-                    values.put("rightAnswer", qa[1]);
-                }
-                id++;
-                row = db.insert(tableName, null, values);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 
