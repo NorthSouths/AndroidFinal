@@ -22,7 +22,7 @@ public class QuestionDao {
     public QuestionDao(Context context) {
         dbhelper = DatabaseHelper.getInstance(context, DBName);
     }
-
+// 0. 创建数据库。这个应该是在dbhelper创建的时候来生成了的。DAO层应该不用写代码
 
     // 我们认为题库不会被删除行。别搞得太麻烦了，要死了
     // 对于Question表的操作，主要有
@@ -39,11 +39,55 @@ public class QuestionDao {
                 cursor.moveToNext();
             }
         }
+        cursor.close();
         db.close();
         return res;
     }
 
-    // 2. 创建数据库。这个应该是在dbhelper创建的时候来生成了的。DAO层应该不用写代码
+    // 2. 按照给定的题号ID给出题目信息，包括题干，选项，答案
+    // 有空的话，把下边的那个和这个合并一下。
+    public Question getQuestion(int QID) {
+        db = dbhelper.getReadableDatabase(); //这也应该是只读的。
+        String content, choiceA, choiceB, choiceC, choiceD, correct;
+        int chapter;
+        Cursor questionCursor = db.query(DatabaseHelper.QUESTIONTABLE,
+                new String[]{DatabaseHelper.CONTENT,
+                        DatabaseHelper.CHAPTER,
+                        DatabaseHelper.CHOICEA,
+                        DatabaseHelper.CHOICEB,
+                        DatabaseHelper.CHOICEC,
+                        DatabaseHelper.CHOICED,
+                }, DatabaseHelper.QUESTIONID + "=?",
+                new String[]{String.valueOf(QID)},
+                null,
+                null,
+                null,
+                null);
+        Cursor answerCursor = db.query(DatabaseHelper.ANSWERTABLE, new String[]{DatabaseHelper.ANSWER}
+                , DatabaseHelper.QUESTIONID + "=?",
+                new String[]{String.valueOf(QID)},
+                null,
+                null,
+                null,
+                null);
+        if (answerCursor.getCount() != 1 || questionCursor.getCount() != 1) {
+            // 不应该发生的内容。题目ID应不重复。
+            Log.w("xu", "不应该发生的情况。不存在此题目！");
+            return null;
+        }
+        questionCursor.moveToFirst();
+        answerCursor.moveToFirst();
+        content = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CONTENT));
+        choiceA = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICEA));
+        choiceB = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICEB));
+        choiceC = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICEC));
+        choiceD = questionCursor.getString(questionCursor.getColumnIndex(DatabaseHelper.CHOICED));
+        chapter = questionCursor.getInt(questionCursor.getColumnIndex(DatabaseHelper.CHAPTER));
+        correct = answerCursor.getString(answerCursor.getColumnIndex(DatabaseHelper.ANSWER));
+        questionCursor.close();
+        answerCursor.close();
+        return new Question(QID, content, chapter, choiceA, choiceB, choiceC, choiceD, correct);
+    }
 
     // 3. 按照给定的随机数序列（ArrayList）给出题目信息，包括题干，选项，答案
     public List<Question> getQuestionList(List<Integer> randomNumList) {
@@ -94,6 +138,8 @@ public class QuestionDao {
 
             Question question = new Question(i, content, chapter, choiceA, choiceB, choiceC, choiceD, correct);
             resultLists.add(question);
+            questionCursor.close();
+            answerCursor.close();
             // 注意，这里游标不用自动下移，但是范围查询可别忘了
         }
         return resultLists;
@@ -140,7 +186,9 @@ public class QuestionDao {
             answerCursor.moveToNext();
         }
 
-
+        questionCursor.close();
+        answerCursor.close();
+        db.close();
         return resultLists;
     }
 

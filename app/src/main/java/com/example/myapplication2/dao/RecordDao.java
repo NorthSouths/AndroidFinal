@@ -88,4 +88,31 @@ public class RecordDao {
         db.close();
         return results;
     }
+
+    //6. 按照给定的groupID查找UserAnswer表，获得List<userAnswerResult>
+    public List<UserAnswerResult> getUserAnswerResultsByGroupID(int groupID) {
+        ArrayList<UserAnswerResult> userAnswerResults = new ArrayList<>();
+        db = dbhelper.getReadableDatabase(); //这也应该是只读的。
+        int questionID;
+        String your_answer;
+        Cursor cursor = db.query(DatabaseHelper.USERANSWERTABLE,
+                new String[]{DatabaseHelper.QUESTIONID, DatabaseHelper.YOURANSWER},
+                DatabaseHelper.GROUPID + "=?",
+                new String[]{String.valueOf(groupID)},
+                null, null, null, null);
+
+        if (cursor.getCount() == 0) {
+            Log.w("xu", "用户历史作答没有此组号的内容");
+            return null;
+        }
+        cursor.moveToFirst();
+        for (int i = 0; i < cursor.getCount(); i++) {
+            your_answer = cursor.getString(cursor.getColumnIndex(DatabaseHelper.YOURANSWER));
+            questionID = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.QUESTIONID));
+            UserAnswerResult userAnswerResult = new UserAnswerResult(questionID, your_answer);
+            userAnswerResults.add(userAnswerResult);
+            cursor.moveToNext();
+        }
+        return userAnswerResults;
+    }
 }
