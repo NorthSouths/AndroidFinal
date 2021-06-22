@@ -258,7 +258,7 @@ public class AnswerSelectActivity extends AppCompatActivity {
         UserInfo info = UserInfo.getInstance(getBaseContext());
         int score = (int) (rightNum / (double) realQuestionNum * 100);
         Date date = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String time = format.format(date);
         Record record = new Record(info.getName(), time, score);
         recordDao.storageRecord(record);

@@ -51,7 +51,9 @@
         android:drawableLeft="@mipmap/user2"
         android:drawablePadding="10dp"
         android:ems="14"
-        android:hint="请输入用户名" />
+        android:hint="请输入用户名"
+        android:inputType="text"
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/pwdLabel"
@@ -74,6 +76,7 @@
         android:drawablePadding="10dp"
         android:ems="14"
         android:hint="请输入密码"
+        android:maxLines="1"
         android:inputType="textPassword" />
 
 

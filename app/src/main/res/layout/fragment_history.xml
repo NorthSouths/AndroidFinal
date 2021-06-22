@@ -9,7 +9,6 @@
         android:id="@+id/textView6"
         android:layout_width="279dp"
         android:layout_height="54dp"
-        android:layout_marginTop="28dp"
         android:gravity="center"
         android:text="这里是你的历史作答哦"
         android:textColor="@color/colorPrimary"
@@ -21,7 +20,7 @@
 
     <ListView
         android:id="@+id/recordList"
-        android:layout_width="327dp"
+        android:layout_width="360dp"
         android:layout_height="445dp"
         android:layout_marginBottom="116dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +28,5 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.0">
-
-    </ListView>
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

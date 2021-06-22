@@ -9,12 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ShowAnswerActivity"></activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/app_name">
-
-        </activity>
-
+            android:label="@string/app_name"></activity>
         <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,14 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity"></activity>
-
-        <activity android:name=".AnswerSelectActivity"></activity>
-
-        <activity android:name=".ModifyPwdActivity"></activity>
-
-        <activity android:name=".InstrumentActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".AnswerSelectActivity" />
+        <activity android:name=".ModifyPwdActivity" />
+        <activity android:name=".InstrumentActivity" />
     </application>
 
 </manifest>

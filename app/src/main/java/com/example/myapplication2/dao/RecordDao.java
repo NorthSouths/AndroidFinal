@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.myapplication2.data.Record;
 import com.example.myapplication2.data.UserAnswerResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // 操作record表和Answer表的内容。
@@ -41,6 +43,7 @@ public class RecordDao {
         if (cursor.moveToFirst()) {
             a = cursor.getInt(0);
         }
+        db.close();
         return a;
     }
 
@@ -58,5 +61,31 @@ public class RecordDao {
             db.insert(DatabaseHelper.USERANSWERTABLE, null, values);
         }
         db.close();
+    }
+
+    // 5. 按照用户名，返回信息。
+    public List<Record> getRecordsByName(String userName) {
+        db = dbhelper.getReadableDatabase();
+        String sql = "select " + DatabaseHelper.GROUPID + ", " + DatabaseHelper.TIME + ", " + DatabaseHelper.SCORE +
+                " from " + DatabaseHelper.RECORDTABLE + " where " + DatabaseHelper.USER + " = " + userName;
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() == 1) {
+            Log.w("xu", "不存在此用户的答题记录");
+            return null;
+        }
+        ArrayList<Record> results = new ArrayList<Record>();
+        int groupID, score;
+        String time;
+        cursor.moveToFirst();
+        for (int i = 0; i < cursor.getCount(); i++) {
+            time = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TIME));
+            groupID = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.GROUPID));
+            score = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.SCORE));
+            cursor.moveToNext();
+            Record record = new Record(userName, time, score, groupID);
+            results.add(record);
+        }
+        db.close();
+        return results;
     }
 }
