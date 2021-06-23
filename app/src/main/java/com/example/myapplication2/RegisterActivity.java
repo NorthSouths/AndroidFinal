@@ -2,18 +2,22 @@ package com.example.myapplication2;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.myapplication2.dao.DatabaseHelper;
 import com.example.myapplication2.dao.UserDao;
@@ -26,11 +30,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button returnBtn;
     private Button registerBtn;
+    private Button forgetBtn;
     private EditText emailText;
     private EditText nameText;
     private EditText passwordText, passwordRepeat;
     private EditText phoneNumText;
-    private Button clearBtn;
+    private TextView lable;
+    private char[] verNum = new char[4];
     private UserDao userDao;
 
     @Override
@@ -38,7 +44,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         userDao = new UserDao(RegisterActivity.this);
-        registerBtn = findViewById(R.id.register_registerBtn);
+
+        lable = findViewById(R.id.register_pwdRepeatLabel);
+
+        registerBtn = findViewById(R.id.forget_confirmBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,18 +55,26 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        returnBtn = findViewById(R.id.register_returnLoginBtn);
+        returnBtn = findViewById(R.id.forget_returnBtn);
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        forgetBtn = findViewById(R.id.register_forgetBtn);
+        forgetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forgetPwd();
+            }
+        });
         phoneNumText = (EditText) findViewById(R.id.register_inputPhone);
         emailText = (EditText) findViewById(R.id.register_inputEmail);
-        nameText = (EditText) findViewById(R.id.register_inputUserName);
-        passwordText = (EditText) findViewById(R.id.register_inputPwd);
-        passwordRepeat = (EditText) findViewById(R.id.register_inputPwdRepeat);
+        nameText = (EditText) findViewById(R.id.forget_inputUserName);
+        passwordText = (EditText) findViewById(R.id.forget_inputPwd);
+        passwordRepeat = (EditText) findViewById(R.id.forget_verNum);
 
     }
 
@@ -130,6 +147,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }).show();
     }
 
+    private void forgetPwd(){
+        Intent intent = new Intent();
+        intent.setClass(RegisterActivity.this,ForgetActivity.class);
+        startActivity(intent);
+    }
+
     private void clear() {
         DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(), "qoc");
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -138,6 +161,5 @@ public class RegisterActivity extends AppCompatActivity {
         db.delete("User", "name=?", args);
         Toast.makeText(RegisterActivity.this, "delete user " + args[0] + " succeed", Toast.LENGTH_SHORT).show();
     }
-
 
 }

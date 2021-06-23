@@ -20,24 +20,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="注册页面"
+            android:text="忘记密码页面"
             android:textColor="#3f3f3f"
             android:textSize="24sp" />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/register_userNameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/forget_inputUserName"
-            android:layout_marginTop="30dp"
-            android:text="用户名"
-            android:textColor="#3f3f3f"
-            android:textSize="12sp" />
+        android:layout_height="360dp">
 
         <EditText
             android:id="@+id/forget_inputUserName"
@@ -50,17 +40,6 @@
             android:ems="14"
             android:hint="请输入账号"
             android:maxLines="1" />
-
-        <TextView
-            android:id="@+id/register_pwdLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/forget_inputUserName"
-            android:layout_alignStart="@+id/forget_inputUserName"
-            android:layout_marginTop="15dp"
-            android:text="密码"
-            android:textColor="#3f3f3f"
-            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/forget_inputPwd"
@@ -75,17 +54,6 @@
             android:inputType="textPassword"
             android:maxLines="1" />
 
-        <TextView
-            android:id="@+id/register_pwdRepeatLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/forget_inputPwd"
-            android:layout_alignStart="@+id/forget_inputUserName"
-            android:layout_marginTop="15dp"
-            android:text="重复输入密码"
-            android:textColor="#3f3f3f"
-            android:textSize="12sp" />
-
         <EditText
             android:id="@+id/forget_verNum"
             android:layout_width="wrap_content"
@@ -95,57 +63,41 @@
             android:drawableLeft="@mipmap/pwd"
             android:drawablePadding="10dp"
             android:ems="14"
-            android:hint="重复密码"
+            android:hint="请输入验证码"
             android:inputType="textPassword"
             android:maxLines="1" />
 
         <TextView
-            android:id="@+id/register_emailLabel"
+            android:id="@+id/register_pwdRepeatLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/forget_verNum"
+            android:layout_below="@+id/forget_inputPwd"
             android:layout_alignStart="@+id/forget_inputUserName"
             android:layout_marginTop="15dp"
-            android:text="邮箱"
+            android:text="验证码"
             android:textColor="#3f3f3f"
             android:textSize="12sp" />
-
-        <EditText
-            android:id="@+id/register_inputEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@+id/register_emailLabel"
-            android:layout_centerHorizontal="true"
-            android:drawableLeft="@mipmap/email"
-            android:drawablePadding="10dp"
-            android:ems="14"
-            android:hint="请输入邮箱"
-            android:inputType="text"
-            android:maxLines="1" />
 
         <TextView
-            android:id="@+id/register_phoneLabel"
+            android:id="@+id/register_pwdLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_inputEmail"
+            android:layout_below="@+id/forget_inputUserName"
             android:layout_alignStart="@+id/forget_inputUserName"
             android:layout_marginTop="15dp"
-            android:text="手机号"
+            android:text="密码"
             android:textColor="#3f3f3f"
             android:textSize="12sp" />
 
-        <EditText
-            android:id="@+id/register_inputPhone"
+        <TextView
+            android:id="@+id/register_userNameLabel"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@+id/register_phoneLabel"
-            android:layout_centerHorizontal="true"
-            android:drawableLeft="@mipmap/phone"
-            android:drawablePadding="10dp"
-            android:ems="14"
-            android:hint="请输入手机号"
-            android:inputType="phone"
-            android:maxLines="1" />
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/forget_inputUserName"
+            android:layout_marginTop="30dp"
+            android:text="用户名"
+            android:textColor="#3f3f3f"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
@@ -174,19 +126,9 @@
             android:layout_marginHorizontal="10dp"
             android:background="@drawable/button_style"
             android:gravity="center"
-            android:text="注册"
-            android:textColor="#FFF" />
-
-        <Button
-            android:id="@+id/register_forgetBtn"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="10dp"
-            android:background="@drawable/button_style"
-            android:gravity="center"
-            android:text="忘记密码"
+            android:text="确认"
             android:textColor="#FFF" />
 
     </LinearLayout>
+
 </LinearLayout>

@@ -29,6 +29,7 @@
         <activity android:name=".AnswerSelectActivity" />
         <activity android:name=".ModifyPwdActivity" />
         <activity android:name=".InstrumentActivity" />
+        <activity android:name=".ForgetActivity" />
     </application>
 
 </manifest>
