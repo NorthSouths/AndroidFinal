@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:gravity="center">
 
         <TextView
@@ -48,7 +48,8 @@
             android:drawableLeft="@mipmap/user2"
             android:drawablePadding="10dp"
             android:ems="14"
-            android:hint="请输入账号" />
+            android:hint="请输入账号"
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/register_pwdLabel"
@@ -71,13 +72,38 @@
             android:drawablePadding="10dp"
             android:ems="14"
             android:hint="请输入密码"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/register_pwdRepeatLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_inputPwd"
+            android:layout_alignStart="@+id/register_inputUserName"
+            android:layout_marginTop="15dp"
+            android:text="重复输入密码"
+            android:textColor="#3f3f3f"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/register_inputPwdRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/register_pwdRepeatLabel"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@mipmap/pwd"
+            android:drawablePadding="10dp"
+            android:ems="14"
+            android:hint="重复密码"
+            android:inputType="textPassword"
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/register_emailLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_inputPwd"
+            android:layout_below="@+id/register_inputPwdRepeat"
             android:layout_alignStart="@+id/register_inputUserName"
             android:layout_marginTop="15dp"
             android:text="邮箱"
@@ -94,7 +120,33 @@
             android:drawablePadding="10dp"
             android:ems="14"
             android:hint="请输入邮箱"
-            android:inputType="text" />
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/register_phoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_inputEmail"
+            android:layout_alignStart="@+id/register_inputUserName"
+            android:layout_marginTop="15dp"
+            android:text="手机号"
+            android:textColor="#3f3f3f"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/register_inputPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/register_phoneLabel"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@mipmap/phone"
+            android:drawablePadding="10dp"
+            android:ems="14"
+            android:hint="请输入手机号"
+            android:inputType="phone"
+            android:maxLines="1" />
+
     </RelativeLayout>
 
     <LinearLayout

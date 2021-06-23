@@ -66,10 +66,12 @@ public class RecordDao {
     // 5. 按照用户名，返回信息。
     public List<Record> getRecordsByName(String userName) {
         db = dbhelper.getReadableDatabase();
-        String sql = "select " + DatabaseHelper.GROUPID + ", " + DatabaseHelper.TIME + ", " + DatabaseHelper.SCORE +
-                " from " + DatabaseHelper.RECORDTABLE + " where " + DatabaseHelper.USER + " = " + userName;
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.getCount() == 1) {
+        //  String sql = "select " + DatabaseHelper.GROUPID + ", " + DatabaseHelper.TIME + ", " + DatabaseHelper.SCORE +
+        //    " from " + DatabaseHelper.RECORDTABLE + " where " + DatabaseHelper.USER + " = " + userName;
+        //Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = db.query(DatabaseHelper.RECORDTABLE, new String[]{DatabaseHelper.GROUPID, DatabaseHelper.TIME, DatabaseHelper.SCORE},
+                DatabaseHelper.USER + "=?", new String[]{userName}, null, null, null);
+        if (cursor.getCount() == 0) {
             Log.w("xu", "不存在此用户的答题记录");
             return null;
         }
