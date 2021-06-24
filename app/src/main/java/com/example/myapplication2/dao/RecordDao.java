@@ -15,7 +15,7 @@ import java.util.List;
 // 操作record表和Answer表的内容。
 public class RecordDao {
     private final DatabaseHelper dbhelper;
-    private final String DBName = "qoc";
+    private final String DBName = DatabaseHelper.DBNAME;
     private SQLiteDatabase db;
 
     public RecordDao(Context context) {

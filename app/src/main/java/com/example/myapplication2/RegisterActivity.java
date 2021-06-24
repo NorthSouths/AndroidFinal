@@ -141,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void clear() {
-        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(), "qoc");
+        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(), "AD");
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] args = new String[1];
         args[0] = nameText.getText().toString();

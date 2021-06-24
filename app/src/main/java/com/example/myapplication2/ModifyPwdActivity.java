@@ -49,7 +49,7 @@ public class ModifyPwdActivity extends AppCompatActivity {
             return;
         }
 
-        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(),"qoc");
+        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(),"AD");
         SQLiteDatabase db = helper.getReadableDatabase();
         UserInfo info = UserInfo.getInstance(getBaseContext());
         String name = info.getName();

@@ -42,6 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String SCORE = "score";
     static final String YOURANSWER = "your_answer";
 
+    static final String DBNAME = "AD";
     static final String NAME = "name";
     static final String PHONENUM = "phonenum";
     static final String EMAIL = "email";

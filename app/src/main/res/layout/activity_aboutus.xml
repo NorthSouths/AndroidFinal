@@ -8,7 +8,6 @@
     android:orientation="vertical">
 
     <TextView
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="五班安卓第三小组"
@@ -16,11 +15,20 @@
         android:textSize="24sp" />
 
     <TextView
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="徐佳辰 徐禹萌 黄琬乔 裴育"
         android:textColor="@color/black"
         android:textSize="24sp" />
 
+    <ImageView
+        android:layout_width="207dp"
+        android:layout_height="98dp"
+        android:src="@mipmap/wzls" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="本程序题目均选自移动平台开发技术云班课题目" />
 </LinearLayout>

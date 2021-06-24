@@ -16,11 +16,6 @@
         android:layout_marginTop="60dp"
         android:gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/wzls" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

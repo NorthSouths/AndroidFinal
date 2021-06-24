@@ -96,7 +96,7 @@ public class ForgetActivity extends AppCompatActivity {
             return;
         }
 
-        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(),"qoc");
+        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(),"AD");
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String sql = "select password from User where name = '" + userName + "'";

@@ -1,12 +1,6 @@
 package com.example.myapplication2;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.example.myapplication2.dao.DatabaseHelper;
-
-import java.util.ArrayList;
 
 public class UserInfo {
     private static UserInfo Instance;
@@ -31,6 +25,5 @@ public class UserInfo {
     public String getName() {
         return name;
     }
-
 
 }

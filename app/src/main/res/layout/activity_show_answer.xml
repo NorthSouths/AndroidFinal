@@ -10,22 +10,22 @@
     <TextView
         android:id="@+id/show_answer_title"
         android:layout_width="106dp"
-        android:layout_height="46dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:textSize="24sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/show_answer_question_content"
         android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
 

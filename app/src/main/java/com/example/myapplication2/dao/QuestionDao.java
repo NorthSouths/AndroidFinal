@@ -17,7 +17,7 @@ public class QuestionDao {
      *
      * */
     private final DatabaseHelper dbhelper;
-    private final String DBName = "qoc";
+    private final String DBName = DatabaseHelper.DBNAME;
     private SQLiteDatabase db;
 
     public QuestionDao(Context context) {

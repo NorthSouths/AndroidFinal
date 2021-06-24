@@ -11,7 +11,7 @@ import com.example.myapplication2.data.User;
 
 public class UserDao {
     private final DatabaseHelper dbhelper;
-    private final String DBName = "qoc";
+    private final String DBName = DatabaseHelper.DBNAME;
     private SQLiteDatabase db;
 
     public UserDao(Context context) {
