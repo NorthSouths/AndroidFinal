@@ -78,10 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
         String inputPassword = passwordText.getText().toString();
         String inputPhoneNum = phoneNumText.getText().toString();
         String inputPwdRepeat = passwordRepeat.getText().toString();
-        if (userDao.isExistSth(inputPhoneNum, "phonenum")) {
-            Toast.makeText(RegisterActivity.this, "手机号已被注册", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         // 不能为空
         if (inputName.isEmpty() || inputEmail.isEmpty() || inputPassword.isEmpty() || inputPhoneNum.isEmpty()) {
             Toast toast = Toast.makeText(RegisterActivity.this, "请输入完整信息", Toast.LENGTH_SHORT);
@@ -116,12 +113,14 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
 
-
         if (userDao.isExistSth(inputName, "name")) {
             Toast.makeText(RegisterActivity.this, "用户名已被注册", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (userDao.isExistSth(inputPhoneNum, "phonenum")) {
+            Toast.makeText(RegisterActivity.this, "手机号已被注册", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //插入记录。
         User newUser = new User(inputName, inputPhoneNum, inputEmail, inputPassword);
@@ -139,7 +138,6 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }).show();
     }
-
 
 
     private void clear() {
