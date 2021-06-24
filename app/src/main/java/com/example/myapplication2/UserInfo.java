@@ -33,37 +33,4 @@ public class UserInfo {
     }
 
 
-
-
-    public ArrayList<String> getRecord() {
-        UserInfo info = UserInfo.getInstance(context);
-        String name = info.getName();
-
-        DatabaseHelper helper = DatabaseHelper.getInstance(context, "qoc");
-        SQLiteDatabase db = helper.getReadableDatabase();
-
-        String sql = "select * from Record where user= '" + name + "' order by score";
-        Cursor cursor = db.rawQuery(sql, null);
-
-        ArrayList<String> list = new ArrayList<>();
-        while (cursor.moveToNext()) {
-          //  String type = cursor.getString(cursor.getColumnIndex("type"));
-            String time = cursor.getString(cursor.getColumnIndex("time"));
-            int score = cursor.getInt(cursor.getColumnIndex("score"));
-            list.add("你于 " + time + " 获得 " + score + "经验豆");
-        }
-        cursor.close();
-        return list;
-    }
-
-    public int getScore() {
-        DatabaseHelper helper = DatabaseHelper.getInstance(context, "qoc");
-        SQLiteDatabase db = helper.getReadableDatabase();
-        String sql = "select SUM(score) AS scores from Record where user=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{name});
-        cursor.moveToFirst();
-        return cursor.getInt(cursor.getColumnIndex("scores"));
-    }
-
-
 }

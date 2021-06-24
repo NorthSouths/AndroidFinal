@@ -30,7 +30,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button returnBtn;
     private Button registerBtn;
-    private Button forgetBtn;
     private EditText emailText;
     private EditText nameText;
     private EditText passwordText, passwordRepeat;
@@ -47,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         lable = findViewById(R.id.register_pwdRepeatLabel);
 
-        registerBtn = findViewById(R.id.forget_confirmBtn);
+        registerBtn = findViewById(R.id.register_confirmBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        returnBtn = findViewById(R.id.forget_returnBtn);
+        returnBtn = findViewById(R.id.register_returnBtn);
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,13 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        forgetBtn = findViewById(R.id.register_forgetBtn);
-        forgetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                forgetPwd();
-            }
-        });
+
         phoneNumText = (EditText) findViewById(R.id.register_inputPhone);
         emailText = (EditText) findViewById(R.id.register_inputEmail);
         nameText = (EditText) findViewById(R.id.forget_inputUserName);
@@ -147,11 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }).show();
     }
 
-    private void forgetPwd(){
-        Intent intent = new Intent();
-        intent.setClass(RegisterActivity.this,ForgetActivity.class);
-        startActivity(intent);
-    }
+
 
     private void clear() {
         DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(), "qoc");

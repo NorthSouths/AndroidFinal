@@ -45,7 +45,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/register_userNameLabel"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@mipmap/user2"
+            android:drawableStart="@mipmap/user2"
             android:drawablePadding="10dp"
             android:ems="14"
             android:hint="请输入账号"
@@ -68,7 +68,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/register_pwdLabel"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@mipmap/pwd"
+            android:drawableStart="@mipmap/pwd"
             android:drawablePadding="10dp"
             android:ems="14"
             android:hint="请输入密码"
@@ -92,7 +92,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/register_pwdRepeatLabel"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@mipmap/pwd"
+            android:drawableStart="@mipmap/pwd"
             android:drawablePadding="10dp"
             android:ems="14"
             android:hint="重复密码"
@@ -116,11 +116,11 @@
             android:layout_height="50dp"
             android:layout_below="@+id/register_emailLabel"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@mipmap/email"
+            android:drawableStart="@mipmap/email"
             android:drawablePadding="10dp"
             android:ems="14"
             android:hint="请输入邮箱"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:maxLines="1" />
 
         <TextView
@@ -140,7 +140,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/register_phoneLabel"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@mipmap/phone"
+            android:drawableStart="@mipmap/phone"
             android:drawablePadding="10dp"
             android:ems="14"
             android:hint="请输入手机号"
@@ -156,7 +156,7 @@
         android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/forget_returnBtn"
+            android:id="@+id/register_returnBtn"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
@@ -167,7 +167,7 @@
             android:textColor="#FFF" />
 
         <Button
-            android:id="@+id/forget_confirmBtn"
+            android:id="@+id/register_confirmBtn"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
@@ -175,17 +175,6 @@
             android:background="@drawable/button_style"
             android:gravity="center"
             android:text="注册"
-            android:textColor="#FFF" />
-
-        <Button
-            android:id="@+id/register_forgetBtn"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="10dp"
-            android:background="@drawable/button_style"
-            android:gravity="center"
-            android:text="忘记密码"
             android:textColor="#FFF" />
 
     </LinearLayout>

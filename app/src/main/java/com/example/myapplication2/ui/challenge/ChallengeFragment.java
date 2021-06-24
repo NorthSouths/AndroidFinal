@@ -30,7 +30,7 @@ public class ChallengeFragment extends Fragment {
     private int checkedItem;
     private String[] chapters;
     private Map<String, Integer> chapterMap;
-    private int inputQuesType = -1;
+    private int inputQuesType = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -149,7 +149,6 @@ public class ChallengeFragment extends Fragment {
                 }
             }
         });
-
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

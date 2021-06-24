@@ -52,5 +52,34 @@ public class UserDao {
     }
 
 
-    //3.
+    //3.登录操作的控制，输入用户名和密码，返回是否验证成功。
+    public boolean isVaildUser(String name, String password) {
+        db = dbhelper.getReadableDatabase();
+        boolean vaild = false;
+        Cursor cursor = null;
+        String[] args = new String[2];
+        args[0] = name;
+        args[1] = password;
+        try {
+            cursor = db.query("User", null, "name=? and password = ?", args, null, null, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        while (cursor.moveToNext()) {
+            vaild = true;
+        }
+        cursor.close();
+        db.close();
+        return vaild;
+    }
+
+    // 4.保留的接口。
+    public int getScore(String username) {
+
+        db = dbhelper.getReadableDatabase();
+        String sql = "select SUM(score) AS scores from Record where user=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{username});
+        cursor.moveToFirst();
+        return cursor.getInt(cursor.getColumnIndex(DatabaseHelper.SCORE));
+    }
 }

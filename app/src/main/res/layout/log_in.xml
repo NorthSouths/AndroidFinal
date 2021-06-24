@@ -76,9 +76,19 @@
         android:drawablePadding="10dp"
         android:ems="14"
         android:hint="请输入密码"
-        android:maxLines="1"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:maxLines="1" />
 
+    <Button
+        android:id="@+id/login_fogPwdBtn"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/inputPwd"
+        android:layout_alignEnd="@id/inputPwd"
+        android:background="@null"
+        android:gravity="center"
+        android:text="忘记密码？"
+        android:textColor="#686868" />
 
     <Button
         android:id="@+id/login_registerBtn"
@@ -87,7 +97,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="60dp"
-        android:layout_marginBottom="250dp"
+        android:layout_marginBottom="200dp"
         android:background="@drawable/button_style"
         android:text="注册"
         android:textColor="#FFF" />
@@ -100,7 +110,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="250dp"
+        android:layout_marginBottom="200dp"
         android:background="@drawable/button_style"
         android:text="登录"
         android:textColor="#FFF" />

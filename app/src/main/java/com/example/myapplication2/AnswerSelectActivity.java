@@ -319,7 +319,7 @@ public class AnswerSelectActivity extends AppCompatActivity {
             buffer = new byte[fis.available()];
             fis.read(buffer);
         } catch (Exception e) {
-            Toast.makeText(AnswerSelectActivity.this, "文件不存在,使用默认5道题", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AnswerSelectActivity.this, "可以在“用户”中设置随机题目的数量", Toast.LENGTH_SHORT).show();
         } finally {
             if (fis != null) {
                 try {

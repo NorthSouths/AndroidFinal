@@ -12,11 +12,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication2.dao.DatabaseHelper;
+import com.example.myapplication2.dao.UserDao;
 
 public class LogInActivity extends AppCompatActivity {
-    private Button logInBtn, registerBtn;
+    private Button logInBtn, registerBtn, forgetPwdBtn;
     private EditText nameText;
     private EditText passwordText;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,14 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.log_in);
         registerBtn = findViewById(R.id.login_registerBtn);
         logInBtn = findViewById(R.id.login_logInBtn);
+        forgetPwdBtn = findViewById(R.id.login_fogPwdBtn);
+        userDao = new UserDao(LogInActivity.this);
+        forgetPwdBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onForgetPwd();
+            }
+        });
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +65,12 @@ public class LogInActivity extends AppCompatActivity {
         // 不结束。放弃注册返回该页面。
     }
 
+    private void onForgetPwd() {
+        Intent intent = new Intent();
+        intent.setClass(LogInActivity.this, ForgetActivity.class);
+        startActivity(intent);
+    }
+
     private void onLogIn() {
         final String inputName = nameText.getText().toString();
         final String inputPassword = passwordText.getText().toString();
@@ -64,22 +80,8 @@ public class LogInActivity extends AppCompatActivity {
             toast.show();
             return;
         } else {
-            DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(), "qoc");
-            SQLiteDatabase db = helper.getReadableDatabase();
-            boolean log = false;
-            Cursor cursor = null;
-            String[] args = new String[2];
-            args[0] = inputName;
-            args[1] = inputPassword;
-            try {
-                cursor = db.query("User", null, "name=? and password = ?", args, null, null, null, null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            while (cursor.moveToNext()) {
-                log = true;
-            }
 
+            boolean log = userDao.isVaildUser(inputName, inputPassword);
             if (log) {
                 UserInfo info = UserInfo.getInstance(getBaseContext());
                 info.initInfo(inputName);
@@ -94,7 +96,6 @@ public class LogInActivity extends AppCompatActivity {
                 toast.show();
                 return;
             }
-
         }
     }
 }

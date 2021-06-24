@@ -15,15 +15,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication2.InstrumentActivity;
+import com.example.myapplication2.AboutUsActivity;
 import com.example.myapplication2.LogInActivity;
 import com.example.myapplication2.ModifyPwdActivity;
 import com.example.myapplication2.R;
 import com.example.myapplication2.UserInfo;
 
-import java.io.BufferedWriter;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -98,19 +96,14 @@ public class UserFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInfo info = UserInfo.getInstance(getContext());
-                String msg = info.getName() + ", you have overall " + info.getScore() + " points";
-                new AlertDialog.Builder(getContext()).setTitle("Tips").setMessage(msg)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent();
-                                intent.setClass(getActivity(), LogInActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
-                        }).show();
+
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), LogInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
+
+
         });
 
         modifyPwd.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +119,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), InstrumentActivity.class);
+                intent.setClass(getActivity(), AboutUsActivity.class);
                 startActivity(intent);
             }
         });
