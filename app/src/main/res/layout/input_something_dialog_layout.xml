@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="标题"
+        android:text="设置题目数量"
+        android:layout_marginVertical="10dp"
         android:textSize="18sp" />
 
     <EditText
@@ -18,7 +19,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:ems="14"
-        android:hint="请输入题目数量"
+        android:hint="请输入不大于50的整数"
         android:inputType="number" />
 
     <LinearLayout

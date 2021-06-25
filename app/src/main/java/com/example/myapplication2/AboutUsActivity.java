@@ -1,9 +1,7 @@
 package com.example.myapplication2;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 

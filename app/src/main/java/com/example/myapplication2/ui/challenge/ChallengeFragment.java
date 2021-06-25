@@ -27,7 +27,7 @@ public class ChallengeFragment extends Fragment {
     private Button randomPracticeBtn;
     private Button chapterPracticeBtn;
     private Button addQuestionBtn;
-    private int checkedItem;
+    private int checkedItem = 1; //默认第一章
     private String[] chapters;
     private Map<String, Integer> chapterMap;
     private int inputQuesType = 0;
@@ -76,7 +76,7 @@ public class ChallengeFragment extends Fragment {
         Intent intent = new Intent();
         intent.setClass(this.getActivity(), AnswerSelectActivity.class);
         intent.putExtra("type", type);//源程序送参数type，表示读取内容的类型。
-        intent.putExtra("name",userName);
+        intent.putExtra("name", userName);
         startActivity(intent);
     }
 
@@ -85,14 +85,15 @@ public class ChallengeFragment extends Fragment {
         intent.setClass(this.getActivity(), AnswerSelectActivity.class);
         intent.putExtra("type", type);//源程序送参数type，表示读取内容的类型。
         intent.putExtra("chapter", chapter);
-        intent.putExtra("name",userName);
+        intent.putExtra("name", userName);
         startActivity(intent);
     }
 
     public void singleChoiceDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("请选择你想要练习的章节：");
-        builder.setSingleChoiceItems(chapters, checkedItem, new DialogInterface.OnClickListener() {
+        // 这里注意设为0，指的是对话框列表默认第一个选项
+        builder.setSingleChoiceItems(chapters, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(), "你选择了" + chapters[which] + "章节号：" + String.valueOf(chapterMap.get(chapters[which])), Toast.LENGTH_SHORT).show();
@@ -103,7 +104,7 @@ public class ChallengeFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                startChallenge("chapter", checkedItem + 1); // 注意这里，它是从0开始的
+                startChallenge("chapter", checkedItem);
             }
         });
 

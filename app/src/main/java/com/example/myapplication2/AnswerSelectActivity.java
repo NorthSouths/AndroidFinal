@@ -57,7 +57,6 @@ public class AnswerSelectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("qoc", "answer activity select create");
         super.onCreate(savedInstanceState);
         exitTime = System.currentTimeMillis();
         final Bundle bundle = getIntent().getExtras();
