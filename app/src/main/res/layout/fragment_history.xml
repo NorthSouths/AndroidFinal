@@ -19,5 +19,5 @@
     <ListView
         android:id="@+id/recordList"
         android:layout_width="360dp"
-        android:layout_height="445dp" />
+        android:layout_height="400dp" />
 </LinearLayout>

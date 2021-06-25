@@ -176,6 +176,7 @@ public class AnswerSelectActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         continueSubmit();//继续提交就行了
+                        return;
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -194,7 +195,26 @@ public class AnswerSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (index > realQuestionNum) {
-                    Toast.makeText(AnswerSelectActivity.this, "你已完成全部内容", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AnswerSelectActivity.this);
+                    builder.setTitle("您已做完全部题目");
+                    builder.setMessage("是否提交？");
+
+                    builder.setPositiveButton("确定提交", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            continueSubmit();//继续提交就行了
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            return;
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                     return;
                 }
                 boolean isChecked = false;
@@ -240,11 +260,11 @@ public class AnswerSelectActivity extends AppCompatActivity {
         if (userAnswer.compareTo(currentRightAnswer) == 0) {
             rightNum++;
             Toast.makeText(AnswerSelectActivity.this, "回答正确", Toast.LENGTH_SHORT).show();
-            Log.i("qoc", "right");
+            Log.i("xu", "right");
         } else {
             wrongNum++;
             Toast.makeText(AnswerSelectActivity.this, "回答错误，正确答案为" + currentRightAnswer, Toast.LENGTH_SHORT).show();
-            Log.i("qoc", "wrong");
+            Log.i("xu", "wrong");
         }
         UserAnswerResult userAnswerResult = new UserAnswerResult(currentQuestion.getQuestionID(), userAnswer);
         userAnswerResults.add(userAnswerResult);
@@ -295,6 +315,10 @@ public class AnswerSelectActivity extends AppCompatActivity {
     }
 
     private void nextAnswer() {
+        if (index > realQuestionNum) {
+            //小心点，双保险，别越界
+            return;
+        }
         String userAnswer = answerBtn[checkedIndex].getText().toString();
         if (userAnswer.compareTo(this.currentRightAnswer) == 0) {
             rightNum++;
