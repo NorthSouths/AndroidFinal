@@ -69,10 +69,13 @@ public class UserFragment extends Fragment {
                     public void onClick(View view) {
                         String number = inputNum.getText().toString();
                         try {
-                            Integer.parseInt(number);
-
+                            int num = Integer.parseInt(number);
+                            if (num > 50) {
+                                throw new NumberFormatException();
+                            }
                         } catch (NumberFormatException e) {
-                            Toast.makeText(getContext(), "请输入整数", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "请输入不大于50的整数", Toast.LENGTH_SHORT).show();
+                            return;
                         }
                         FileOutputStream fileOutputStream = null;
                         try {

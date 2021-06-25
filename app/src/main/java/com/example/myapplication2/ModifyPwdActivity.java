@@ -29,10 +29,17 @@ public class ModifyPwdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modify_pwd);
         userDao = new UserDao(ModifyPwdActivity.this);
         modifyBtn = findViewById(R.id.modify_confirmBtn);
+        returnBtn = findViewById(R.id.modify_returnBtn);
         oldPwdEdit = findViewById(R.id.modify_inputOldPwd);
         newPwdEdit = findViewById(R.id.modify_inputNewPwd);
         confirmPwdEdit = findViewById(R.id.modify_inputPwdRepeat);
         name = getIntent().getStringExtra("name");
+        returnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         modifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

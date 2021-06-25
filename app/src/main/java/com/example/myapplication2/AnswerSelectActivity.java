@@ -340,6 +340,9 @@ public class AnswerSelectActivity extends AppCompatActivity {
         } else {
             result = 5;
         }
+        if (result >= 50) {
+            result = 50;
+        }
         return result;
     }
 
