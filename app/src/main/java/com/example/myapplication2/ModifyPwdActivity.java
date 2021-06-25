@@ -15,73 +15,59 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication2.dao.DatabaseHelper;
-import com.example.myapplication2.data.UserInfo;
+import com.example.myapplication2.dao.UserDao;
 
 public class ModifyPwdActivity extends AppCompatActivity {
-    private Button modify;
-    private EditText oldPwd;
-    private EditText newPwd;
-    private EditText confirmPwd;
+    private Button returnBtn, modifyBtn;
+    private EditText oldPwdEdit, newPwdEdit, confirmPwdEdit;
+    private String name;
+    private UserDao userDao;
+
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_pwd);
-
-        modify = findViewById(R.id.modify_modifyBtn);
-        oldPwd = findViewById(R.id.old_pwd);
-        newPwd = findViewById(R.id.new_pwd);
-        confirmPwd = findViewById(R.id.confirm_pwd);
-
-        modify.setOnClickListener(new View.OnClickListener() {
+        userDao = new UserDao(ModifyPwdActivity.this);
+        modifyBtn = findViewById(R.id.modify_confirmBtn);
+        oldPwdEdit = findViewById(R.id.modify_inputOldPwd);
+        newPwdEdit = findViewById(R.id.modify_inputNewPwd);
+        confirmPwdEdit = findViewById(R.id.modify_inputPwdRepeat);
+        name = getIntent().getStringExtra("name");
+        modifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modifyPwd();
+                onModifyPwd();
             }
         });
     }
 
-    private void modifyPwd(){
-        String oldPassword = oldPwd.getText().toString();
-        String newPassword = newPwd.getText().toString();
-        String confirmPassword = confirmPwd.getText().toString();
+    private void onModifyPwd() {
+        String oldPassword = oldPwdEdit.getText().toString();
+        String newPassword = newPwdEdit.getText().toString();
+        String confirmPassword = confirmPwdEdit.getText().toString();
 
-        if(oldPassword.isEmpty()|| newPassword.isEmpty() || confirmPassword.isEmpty()){
-            Toast.makeText(getBaseContext(),"请输入全部密码",Toast.LENGTH_SHORT).show();
+        if (oldPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(getBaseContext(), "请将信息填写完整", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!newPassword.equals(confirmPassword)) {
+            Toast.makeText(getBaseContext(), "你输入的两次新密码不一致哦", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // 根据用户名，查找密码
+
+        if (!oldPassword.equals(userDao.getUserPwd(name, "name"))) {
+            Toast.makeText(getBaseContext(), "原密码不正确", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        DatabaseHelper helper = DatabaseHelper.getInstance(getBaseContext(),"AD");
-        SQLiteDatabase db = helper.getReadableDatabase();
-        UserInfo info = UserInfo.getInstance(getBaseContext());
-        String name = info.getName();
-
-        String sql = "select password from User where name = '" + name + "'";
-        Cursor cursor = db.rawQuery(sql,null,null);
-        while(cursor.moveToNext()){
-            if(!cursor.getString(0).equals(oldPassword)){
-                cursor.close();
-                Toast.makeText(getBaseContext(),"请输入正确的旧密码",Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-        if(!newPassword.equals(confirmPassword)){
-            Toast.makeText(getBaseContext(),"你输入的两次新密码不一致哦",Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        db = helper.getWritableDatabase();
-        ContentValues value = new ContentValues();
-        value.put("password",newPassword);
-        db.update("User",value,"name=?",new String[]{name});
-        new AlertDialog.Builder(this).setTitle("嘿，宝贝!").setMessage("你已经成功修改密码啦")
+        userDao.updateUserPwd(name, "name", newPassword);
+        new AlertDialog.Builder(this).setTitle("Tips!").setMessage("修改密码成功！")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        intent.setClass(ModifyPwdActivity.this,LogInActivity.class);
-                        startActivity(intent);
+                        dialog.dismiss();
+                        finish();
                     }
                 }).show();
     }

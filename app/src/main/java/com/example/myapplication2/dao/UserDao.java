@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.myapplication2.RegisterActivity;
@@ -25,12 +26,13 @@ public class UserDao {
         Cursor cursor = db.rawQuery("select " + Type + " from " + DatabaseHelper.USERTABLE, null);
         boolean registered = false;
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
+        for (int i = 0; i < cursor.getCount(); i++) {
             temp = cursor.getString(cursor.getColumnIndex(Type));
             if (target.compareTo(temp) == 0) {
                 registered = true;
                 break;
             }
+            cursor.moveToNext();
         }
         cursor.close();
         db.close();
@@ -81,5 +83,31 @@ public class UserDao {
         Cursor cursor = db.rawQuery(sql, new String[]{username});
         cursor.moveToFirst();
         return cursor.getInt(cursor.getColumnIndex(DatabaseHelper.SCORE));
+    }
+
+    //5. 更新用户密码信息。
+    public void updateUserPwd(String key, String field, String newPwd) {
+        db = dbhelper.getWritableDatabase();
+
+        ContentValues value = new ContentValues();
+        value.put(DatabaseHelper.PASSWORD, newPwd);
+        db.update(DatabaseHelper.USERTABLE, value, field + "=?", new String[]{key});
+        db.close();
+    }
+
+    //6. 获取用户密码
+    public String getUserPwd(String key, String field) {
+        db = dbhelper.getReadableDatabase();
+        String res;
+        Cursor cursor = db.query(DatabaseHelper.USERTABLE, new String[]{DatabaseHelper.PASSWORD},
+                field + "=?", new String[]{key}, null, null, null);
+        if (cursor.getCount() != 1) {
+            Log.w("xu", "出现错误");
+            return null;
+        }
+        cursor.moveToFirst();
+        res = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PASSWORD));
+        db.close();
+        return res;
     }
 }

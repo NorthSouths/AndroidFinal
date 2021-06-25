@@ -28,7 +28,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class UserFragment extends Fragment {
     private Button modifyPwd;
     private Button logout;
-    private Button instrument;
+    private Button about;
     private Button setRandomQuesNumBtn;
     private TextView userNameTextView;
 
@@ -37,9 +37,9 @@ public class UserFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_user, container, false);
         modifyPwd = root.findViewById(R.id.modify_passwordBtn);
         logout = root.findViewById(R.id.logoutBtn);
-        instrument = root.findViewById(R.id.instrumentBtn);
+        about = root.findViewById(R.id.instrumentBtn);
         userNameTextView = root.findViewById(R.id.user_showinfo);
-        String name = getActivity().getIntent().getStringExtra("name");
+        final String name = getActivity().getIntent().getStringExtra("name");
         userNameTextView.setText(name);
         setRandomQuesNumBtn = root.findViewById(R.id.set_random_quesnum_btn);
 
@@ -108,11 +108,12 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), ModifyPwdActivity.class);
+                intent.putExtra("name", name);
                 startActivity(intent);
             }
         });
 
-        instrument.setOnClickListener(new View.OnClickListener() {
+        about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();

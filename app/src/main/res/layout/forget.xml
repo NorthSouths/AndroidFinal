@@ -43,7 +43,8 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@mipmap/phone"
                 android:ems="10"
-                android:hint="请输入注册时的手机号" />
+                android:hint="请输入注册时的手机号"
+                android:maxLines="1" />
 
             <Button
                 android:id="@+id/getCodeBtn"
@@ -61,8 +62,8 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_below="@+id/temp"
-            android:layout_centerHorizontal="true"
             android:layout_alignStart="@+id/temp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:drawableStart="@mipmap/pwd"
             android:drawablePadding="10dp"
@@ -71,16 +72,31 @@
             android:inputType="textPassword"
             android:maxLines="1" />
 
+        <EditText
+            android:id="@+id/forget_inputPwdRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/forget_inputPwd"
+            android:layout_alignStart="@+id/temp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:drawableStart="@mipmap/pwd"
+            android:drawablePadding="10dp"
+            android:ems="14"
+            android:hint="重复输入"
+            android:inputType="textPassword"
+            android:maxLines="1" />
+
 
         <EditText
             android:id="@+id/forget_verNum"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_below="@+id/forget_inputPwd"
+            android:layout_below="@+id/forget_inputPwdRepeat"
+            android:layout_alignStart="@+id/temp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:layout_alignStart="@+id/temp"
-            android:drawableStart="@mipmap/pwd"
+            android:drawableStart="@mipmap/vaildcode"
             android:drawablePadding="10dp"
             android:ems="14"
             android:hint="请输入验证码"
