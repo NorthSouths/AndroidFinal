@@ -2,8 +2,6 @@ package com.example.myapplication2;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,12 +13,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication2.dao.DatabaseHelper;
 import com.example.myapplication2.dao.QuestionDao;
 import com.example.myapplication2.dao.RecordDao;
 import com.example.myapplication2.data.Question;
 import com.example.myapplication2.data.Record;
 import com.example.myapplication2.data.UserAnswerResult;
+
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,8 +32,7 @@ import java.util.Set;
 
 
 public class AnswerSelectActivity extends AppCompatActivity {
-    private TextView questionTextView;
-    private TextView title;
+    private TextView questionTextView, title;
     private RadioGroup group;
     private RadioButton[] answerBtn = new RadioButton[4];
     private Button submit;
@@ -56,6 +53,7 @@ public class AnswerSelectActivity extends AppCompatActivity {
     private List<Question> questions;
     private List<UserAnswerResult> userAnswerResults;
     private long exitTime; //"再按一次返回"
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +67,9 @@ public class AnswerSelectActivity extends AppCompatActivity {
             }
             if (bundle.containsKey("chapter")) {
                 chosenChapter = (int) bundle.get("chapter");
+            }
+            if (bundle.containsKey("name")) {
+                userName = (String) bundle.get("name");
             }
         }
         setContentView(R.layout.activity_answer_select);
@@ -255,21 +256,21 @@ public class AnswerSelectActivity extends AppCompatActivity {
             }
         }
 
-        UserInfo info = UserInfo.getInstance(getBaseContext());
+
         int score = (int) (rightNum / (double) realQuestionNum * 100);
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String time = format.format(date);
-        Record record = new Record(info.getName(), time, score);
+        Record record = new Record(userName, time, score);
         recordDao.storageRecord(record);
 
         int currentGroupID = recordDao.getAutpIncreatedRecordGroupID();
         if (currentGroupID == 0) {
             Toast.makeText(AnswerSelectActivity.this, "严重错误，自增ID不正确", Toast.LENGTH_SHORT).show();
         }
-        recordDao.storageUserAnswer(currentGroupID, info.getName(), userAnswerResults);
-        String msg = "完了！完了！" + info.getName() + ", 你已经做完了该练习中的全部内容，你做出了 "
-                + rightNum + " 个正确答案和 " + wrongNum + " 个错误答案 \n 王峥老师送你 " + score + " 个经验豆！！！";
+        recordDao.storageUserAnswer(currentGroupID, userName, userAnswerResults);
+        String msg = userName + ", 你已经做完了该练习中的全部内容，你做出了 "
+                + rightNum + " 个正确答案和 " + wrongNum + " 个错误答案 \n 本次成绩：" + score + " 分！！！";
         new AlertDialog.Builder(AnswerSelectActivity.this).setTitle("Tip!").setMessage(msg)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override

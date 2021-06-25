@@ -1,7 +1,6 @@
 package com.example.myapplication2.ui.user;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import com.example.myapplication2.AboutUsActivity;
 import com.example.myapplication2.LogInActivity;
 import com.example.myapplication2.ModifyPwdActivity;
 import com.example.myapplication2.R;
-import com.example.myapplication2.UserInfo;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,7 +31,6 @@ public class UserFragment extends Fragment {
     private Button instrument;
     private Button setRandomQuesNumBtn;
     private TextView userNameTextView;
-    private String userInfo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,8 +39,8 @@ public class UserFragment extends Fragment {
         logout = root.findViewById(R.id.logoutBtn);
         instrument = root.findViewById(R.id.instrumentBtn);
         userNameTextView = root.findViewById(R.id.user_showinfo);
-        userInfo = UserInfo.getInstance(getContext()).getName();
-        userNameTextView.setText(userInfo);
+        String name = getActivity().getIntent().getStringExtra("name");
+        userNameTextView.setText(name);
         setRandomQuesNumBtn = root.findViewById(R.id.set_random_quesnum_btn);
 
         setRandomQuesNumBtn.setOnClickListener(new View.OnClickListener() {
@@ -96,11 +93,11 @@ public class UserFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), LogInActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                getActivity().finish();
+//                Intent intent = new Intent();
+//                intent.setClass(getActivity(), LogInActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
             }
 
 

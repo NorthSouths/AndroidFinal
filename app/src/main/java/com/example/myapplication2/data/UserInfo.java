@@ -1,4 +1,4 @@
-package com.example.myapplication2;
+package com.example.myapplication2.data;
 
 import android.content.Context;
 
@@ -15,11 +15,11 @@ public class UserInfo {
     }
 
     private UserInfo(Context context_) {
-        context = context_;
+        this.context = context_;
     }
 
     public void initInfo(String name_) {
-        name = name_;
+        this.name = name_;
     }
 
     public String getName() {

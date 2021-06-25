@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication2.dao.DatabaseHelper;
+import com.example.myapplication2.data.UserInfo;
 
 public class ModifyPwdActivity extends AppCompatActivity {
     private Button modify;

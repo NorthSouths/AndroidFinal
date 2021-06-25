@@ -2,12 +2,12 @@ package com.example.myapplication2.ui.history;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication2.R;
 import com.example.myapplication2.ShowAnswerActivity;
-import com.example.myapplication2.UserInfo;
 import com.example.myapplication2.dao.RecordDao;
 import com.example.myapplication2.data.Record;
 
@@ -36,8 +35,10 @@ public class HistoryFragment extends Fragment {
         // 随后建立一个List<String>并赋值给ArrayAdapter<String>
         // 建立点击监听事件，重点是获取对应的GroupID.
         // 注意要按用户进行查询，要想办法获取用户信息。
-        UserInfo info = UserInfo.getInstance(getActivity());
-        String name = info.getName();
+
+        String name = getActivity().getIntent().getStringExtra("name");
+
+        //   Toast.makeText(getContext(), name2, Toast.LENGTH_SHORT).show();
         final List<Record> userAnswerHistoryLists = recordDao.getRecordsByName(name);
         if (userAnswerHistoryLists != null) {
             List<String> userAnswerInfoLists = new ArrayList<>();

@@ -31,6 +31,7 @@ public class ChallengeFragment extends Fragment {
     private String[] chapters;
     private Map<String, Integer> chapterMap;
     private int inputQuesType = 0;
+    private String userName;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class ChallengeFragment extends Fragment {
         randomPracticeBtn = root.findViewById(R.id.random_practice_Btn);
         chapterPracticeBtn = root.findViewById(R.id.chapter_practice_Btn);
         addQuestionBtn = root.findViewById(R.id.addQuestion);
-
+        userName = getActivity().getIntent().getStringExtra("name");
 
         randomPracticeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +76,7 @@ public class ChallengeFragment extends Fragment {
         Intent intent = new Intent();
         intent.setClass(this.getActivity(), AnswerSelectActivity.class);
         intent.putExtra("type", type);//源程序送参数type，表示读取内容的类型。
+        intent.putExtra("name",userName);
         startActivity(intent);
     }
 
@@ -83,6 +85,7 @@ public class ChallengeFragment extends Fragment {
         intent.setClass(this.getActivity(), AnswerSelectActivity.class);
         intent.putExtra("type", type);//源程序送参数type，表示读取内容的类型。
         intent.putExtra("chapter", chapter);
+        intent.putExtra("name",userName);
         startActivity(intent);
     }
 

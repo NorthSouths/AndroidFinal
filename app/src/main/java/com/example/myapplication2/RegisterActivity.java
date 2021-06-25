@@ -65,9 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         phoneNumText = (EditText) findViewById(R.id.register_inputPhone);
         emailText = (EditText) findViewById(R.id.register_inputEmail);
-        nameText = (EditText) findViewById(R.id.forget_inputUserName);
-        passwordText = (EditText) findViewById(R.id.forget_inputPwd);
-        passwordRepeat = (EditText) findViewById(R.id.forget_verNum);
+        nameText = (EditText) findViewById(R.id.register_inputUserName);
+        passwordText = (EditText) findViewById(R.id.register_inputPwd);
+        passwordRepeat = (EditText) findViewById(R.id.register_inputPwdRepeat);
 
     }
 

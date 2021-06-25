@@ -1,8 +1,7 @@
 package com.example.myapplication2;
 
+import android.Manifest;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import com.example.myapplication2.dao.DatabaseHelper;
 import com.example.myapplication2.dao.UserDao;
 
 public class LogInActivity extends AppCompatActivity {
@@ -24,6 +23,7 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_in);
+        ActivityCompat.requestPermissions(LogInActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1);
         registerBtn = findViewById(R.id.login_registerBtn);
         logInBtn = findViewById(R.id.login_logInBtn);
         forgetPwdBtn = findViewById(R.id.login_fogPwdBtn);
@@ -80,16 +80,12 @@ public class LogInActivity extends AppCompatActivity {
             toast.show();
             return;
         } else {
-
             boolean log = userDao.isVaildUser(inputName, inputPassword);
             if (log) {
-                UserInfo info = UserInfo.getInstance(getBaseContext());
-                info.initInfo(inputName);
                 Intent intent = new Intent();
                 intent.setClass(LogInActivity.this, MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("name", inputName);
-                startActivity(intent, bundle);
+                intent.putExtra("name", inputName);
+                startActivity(intent);
 
             } else {
                 Toast toast = Toast.makeText(LogInActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT);
