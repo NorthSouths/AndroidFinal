@@ -1,5 +1,7 @@
 package com.example.myapplication2.ui.history;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication2.AnswerSelectActivity;
 import com.example.myapplication2.R;
 import com.example.myapplication2.ShowAnswerActivity;
 import com.example.myapplication2.dao.RecordDao;
@@ -25,19 +28,48 @@ import java.util.List;
 public class HistoryFragment extends Fragment {
     private ListView recordView;
     private RecordDao recordDao;
+    private Button delete;
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_history, container, false);
         recordView = root.findViewById(R.id.recordList);
         recordDao = new RecordDao(getContext());
+        delete = root.findViewById(R.id.deleteBtn);
         //调整此处代码，使用DAO层控制record表，获取到答题记录列表 List<Record>
         // 随后建立一个List<String>并赋值给ArrayAdapter<String>
         // 建立点击监听事件，重点是获取对应的GroupID.
         // 注意要按用户进行查询，要想办法获取用户信息。
 
-        String name = getActivity().getIntent().getStringExtra("name");
+        final String name = getActivity().getIntent().getStringExtra("name");
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("警告");
+                builder.setMessage("确定要清空该用户全部记录嘛？");
 
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        recordDao.clearUserRecord(name);
+                        List<String> temp = new ArrayList<>();
+                        recordView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, temp));
+                        return;
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        return;
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
         //   Toast.makeText(getContext(), name2, Toast.LENGTH_SHORT).show();
         final List<Record> userAnswerHistoryLists = recordDao.getRecordsByName(name);
         if (userAnswerHistoryLists != null) {
@@ -64,5 +96,6 @@ public class HistoryFragment extends Fragment {
         });
         return root;
     }
+
 
 }

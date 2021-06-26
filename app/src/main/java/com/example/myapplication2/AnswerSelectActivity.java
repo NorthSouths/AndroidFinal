@@ -112,7 +112,7 @@ public class AnswerSelectActivity extends AppCompatActivity {
                         testNum += String.valueOf(number) + " ";
                     }
                     List<Integer> randomList = new ArrayList<Integer>(randomSet);
-                    Toast.makeText(AnswerSelectActivity.this, testNum, Toast.LENGTH_SHORT).show(); //输出题目ID。注意，由于set是无序的，顺序不可能跟输出的顺序一致。
+                 //   Toast.makeText(AnswerSelectActivity.this, testNum, Toast.LENGTH_SHORT).show(); //输出题目ID。注意，由于set是无序的，顺序不可能跟输出的顺序一致。
                     questions = questionDao.getQuestionList(randomList);
                     if (questions == null) {
                         Toast.makeText(AnswerSelectActivity.this, "严重错误，没有取到题目", Toast.LENGTH_SHORT).show();

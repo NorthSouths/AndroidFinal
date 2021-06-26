@@ -117,4 +117,14 @@ public class RecordDao {
         }
         return userAnswerResults;
     }
+
+    // 7. 清空记录
+    public void clearUserRecord(String name) {
+        db = dbhelper.getWritableDatabase();
+        db.delete(DatabaseHelper.RECORDTABLE, DatabaseHelper.USER + " =?", new String[]{name});
+        db.delete(DatabaseHelper.USERANSWERTABLE, DatabaseHelper.USER + " =?", new String[]{name});
+
+
+        db.close();
+    }
 }
