@@ -1,5 +1,7 @@
 package com.example.myapplication2;
-
+/*
+    author : 181110514 徐佳辰
+ */
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,7 +16,6 @@ import com.example.myapplication2.dao.QuestionDao;
 import com.example.myapplication2.dao.RecordDao;
 import com.example.myapplication2.data.Question;
 import com.example.myapplication2.data.QuestionAndUserAnswer;
-import com.example.myapplication2.data.Record;
 import com.example.myapplication2.data.UserAnswerResult;
 
 import java.util.ArrayList;

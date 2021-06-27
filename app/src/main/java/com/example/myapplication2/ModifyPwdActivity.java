@@ -1,10 +1,8 @@
 package com.example.myapplication2;
-
-import android.content.ContentValues;
+/*
+    author : 181110515 徐禹萌
+ */
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication2.dao.DatabaseHelper;
 import com.example.myapplication2.dao.UserDao;
 
 public class ModifyPwdActivity extends AppCompatActivity {

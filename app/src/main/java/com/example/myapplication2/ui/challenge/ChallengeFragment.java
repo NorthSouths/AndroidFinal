@@ -1,12 +1,11 @@
 package com.example.myapplication2.ui.challenge;
-
-import android.app.Activity;
+/*
+    author : 181110514 徐佳辰
+ */
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +19,6 @@ import com.example.myapplication2.AnswerSelectActivity;
 import com.example.myapplication2.InputQuestionActivity;
 import com.example.myapplication2.R;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,6 +95,7 @@ public class ChallengeFragment extends Fragment {
     public void singleChoiceDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("请选择你想要练习的章节：");
+        checkedItem = 1;
         // 这里注意设为0，指的是对话框列表默认第一个选项
         builder.setSingleChoiceItems(chapters, 0, new DialogInterface.OnClickListener() {
             @Override

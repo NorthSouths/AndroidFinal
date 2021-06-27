@@ -1,5 +1,7 @@
 package com.example.myapplication2;
-
+/*
+    author : 181110514 徐佳辰
+ */
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;

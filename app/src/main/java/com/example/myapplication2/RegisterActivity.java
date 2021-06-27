@@ -1,5 +1,7 @@
 package com.example.myapplication2;
-
+/*
+    author : 181110526 裴育
+ */
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
@@ -135,6 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
                         bundle.putString("name", inputName);
                         intent.putExtras(bundle);
                         startActivity(intent);
+                        finish();
                     }
                 }).show();
     }

@@ -1,5 +1,7 @@
 package com.example.myapplication2;
-
+/*
+    author : 181110526 裴育
+ */
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.telephony.SmsManager;

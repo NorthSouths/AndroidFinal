@@ -1,5 +1,7 @@
 package com.example.myapplication2;
-
+/*
+    author : 181110515 徐禹萌
+ */
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;

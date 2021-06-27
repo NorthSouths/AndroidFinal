@@ -1,5 +1,7 @@
 package com.example.myapplication2.ui.history;
-
+/*
+    author : 181110514 徐佳辰
+ */
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;

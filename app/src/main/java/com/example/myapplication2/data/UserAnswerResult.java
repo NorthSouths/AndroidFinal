@@ -1,5 +1,7 @@
 package com.example.myapplication2.data;
-
+/*
+    author : 181110514 徐佳辰
+ */
 public class UserAnswerResult {
     private int questionID;
     private String userAnswer;

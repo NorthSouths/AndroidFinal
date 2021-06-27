@@ -1,5 +1,7 @@
 package com.example.myapplication2;
-
+/*
+    author : 181110526 裴育
+ */
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
