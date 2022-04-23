@@ -86,6 +86,4 @@ public class Question {
     public void setCorrectChoice(String correctChoice) {
         this.correctChoice = correctChoice;
     }
-
-
 }
