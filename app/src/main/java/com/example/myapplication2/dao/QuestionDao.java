@@ -1,6 +1,6 @@
 package com.example.myapplication2.dao;
 /*
-    author : 181110525 黄琬乔
+    author : 2191110328 乔楠
  */
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,81 +1,21 @@
 注：本行为说明文字：   数据格式：题目        ;      题目章节   ;     选项1 ; 选项2 ; 选项3; 选项4; 正确答案
-Android智能手机平台是基于（ ）操作系统内核开发而来的;1;Windows;Unix;Chrome OS;Linux;Linux
-Android智能手机平台是基于（ ）程序语言来进行应用开发的;1;C#;Objective‒c;Java;Javascript;Java
-（ ）智能手机平台是开放源代码的;1;Android;Windows Phone;  iOS;Symbian;Android
-开发人员基于android开发的应用程序，属于以下哪个层次;1;应用程序（Application）层;应用程序框架（Application Framework）;本地框架JAVA运行环境（Libraries）层; Linux内核与驱动层;应用程序（Application）层
-下列哪个选项不是Android操作系统的四大组件之一 ;1; Intent;Service;Activity;Contennt Provider;Intent
-Android 应用程序需要打包成（）文件格式在手机上安装运行;1; .class ;.xml; .apk; .dex; .apk
-下面哪个属于Android体系架构中的应用程序;1;WEBKIT;sqlite;Intent;浏览器;浏览器
-Android的虚拟设备的缩写是（ ）;1;AVD;JVM;DVM;KVD;AVD
-常用的Android程序的集成开发环境IDE是（    ）;1;Android Studio;Visual Studio;Dreamweaver;PyCharm;Android Studio
-对于Android的优点的描述，下面哪一项描述不正确（   ）;1;开放性，开源，免费，可定制;丰富的硬件选择;不受任何限制的开发商;过分依赖开发商，缺乏标准配置;过分依赖开发商，缺乏标准配置
-Android中的TextView组件;2;和Java中的Label完全相同;只能显示单行文本;可以显示单行文本也可以显示多行文本;只能显示多行文本;可以显示单行文本也可以显示多行文本
-Android中的TextView组件;2;只显示文字;只显示图片;可以显示图片和文字;可以显示视频;可以显示图片和文字
-创建Android中的UI组件推荐使用;2;在xml布局文件中相应的标签添加;在java文件中使用new关键字添加;在java中使用相关类型的变量添加;用其他方法添加;在xml布局文件中相应的标签添加
-获取编辑框的文本的方法是;2;使用getText()方法;使用read的方法;使用findViewById()方法;EditText的ID.toString()方法;使用getText()方法
-Android中编辑框;2;只能输入单行文本;只能输入多行文本;可以输入指定格式的文本;可以输入富文本;可以输入指定格式的文本
-设置TextView中文本的方法是;2;可以在java程序中使用setText()方法设置;可以使用TextView控件的ID.Text=文本设置;可以使用toString()方法设置;可以使用findViewById()设置;可以在java程序中使用setText()方法设置
-响应按钮单击事件;2;可使用ON_CLICK单击消息映射;使用OnClick标记指定的方法;使用名为Click的内部类;可以使用按钮的一个匿名方法;使用OnClick标记指定的方法
-响应按钮单击事件;2;只能使用xml布局文件中按钮中Onclick标记实现;只能在java文件中设置以匿名对象为参数的侦听器;只能在java文件中设置以有名对象为参数的侦听器;前面三个方法都可以;前面三个方法都可以
-Audroid:autoLink的含义是;2;连接其它UI控件;启动指定的程序段;是否将指定格式的文本转换为可单击的超链接形式;将其指定的文本转换为超链接形式;是否将指定格式的文本转换为可单击的超链接形式
-android:hint;2;TextView的缺省文本内容;初始化TextView文本;隐藏文本中的整数;TextView在其文字为空时的缺省文本内容;TextView在其文字为空时的缺省文本内容
-表格布局管理器在隐藏列时需要设置;3;android:hideColumns属性;android:shrinkColumns属性;android:stretchColumns属性;ndroid:collapseColumns属性;ndroid:collapseColumns属性
-表格布局;3;支持LinearLayout的全部属性;支持FrameLayout的全部属性;支持RelativeLayout的全部属性;从RetativeLayout派生;支持LinearLayout的全部属性
-对于表格布局管理器;3;可以隐藏、拉伸和收缩指定的行;需要指定行数和列数;可以隐藏、拉伸和收缩指定的列;可以同时隐藏拉伸和收缩指定的行和列;可以隐藏、拉伸和收缩指定的列
-帧布局管理器对齐前景时使用;3;android:align属性;android:gravity属性;android:layout_gravity属性;android:foregravity属性;android:foregravity属性
-帧布局管理内部的组件;3;缺省都以左上角为对齐方式显示;缺省以中心对齐方式显示;需要指定对齐方式;对齐方式与内部组件类型有关;缺省都以左上角为对齐方式显示
-帧布局中的各组件;3;以覆盖排列方式显示;以平铺方式显示;以水平或竖直方式排列显示;以陈列排列方式显示;以覆盖排列方式显示
-android:gravity属性用于;3;指定对齐的权重;指定控件本身在父组件内的对齐方式;指定与其它控件之间的对齐方式;指定组件内部的内容对齐方式;指定组件内部的内容对齐方式
-要想将LinearLayout布局的控件设置为按竖向排列进行如下设置：;3;android:orientation="vertical";android:orientation="horizontal";android:gravity="center_vertical";android:layout_gravity="horizontal";android:orientation="vertical"
-对于布局管理器下列说法正确的是：;3;布局管理器只能定义一次，不能嵌套使用;布局管理器内部的控件相关，使用什么控件就要定义相应的布局;一般推荐在XML文件中定义布局管理;只有相同的布局管理器才能嵌套使用;一般推荐在XML文件中定义布局管理
-对于LinearLayout下列说法正确的是：;3;当组件排列到屏幕边缘时，屏幕外的组件将不会显示;期内部排列的组件到屏幕边缘时会压缩，以便显示全部组件;期内部的组件排列到边缘时会自动换行，以便显示全部组件;期内部组件排列到边缘时会自动改为小字体，以便显示全部组件;当组件排列到屏幕边缘时，屏幕外的组件将不会显示
-列表选择框的标签是;4;Spinner;ListView;List;ArrayAdaptor;Spinner
-获取列表选择框的值可以使用;4;getText()方法;findViewById()方法;OnItemSelected()方法;getSelectItem()方法;getSelectItem()方法
-列表选择框的功能是;4;可以选择若干个列表;提供一系列选择项供用户选择;按下按钮后出现一个列表;可以有选择性地把列表框起来;提供一系列选择项供用户选择
-关于列表选择框下列说法错误的是;4;可以使用String资源保存列表选择项;可以使用适配器保存列表选择项;可以直接将列表项赋值给选择框;通常只能选择一个选择项;可以直接将列表项赋值给选择框
-列表选择框和列表视图的区别是;4;列表选择框不能使用适配器;列表视图占屏幕空间较小;列表选择框是下拉形式的，而列表视图是平铺的;列表选择框比列表视频直观;列表选择框是下拉形式的，而列表视图是平铺的
-关于适配器下列哪些说法是正确的;4;SimpleAdapter只能提供文字信息;ArrayAdapter可以提供多种信息;适配器主要是将数据绑定在UI控件上;适配器用于手机与外设之间的兼容问题;适配器主要是将数据绑定在UI控件上
-网格视图的标记是;4;TableView;GridView;NetView;MeshView;GridView
-图像切换器特有的功能是;4;可以使用动画效果;可以显示图像;可以设置适配器;可以使用src加载图片;可以使用src加载图片
-画廊视图;4;某一时刻只能看到一幅图片;能够按水平方向显示内容;标记为ImageSwitcher;不能使用适配器;某一时刻只能看到一幅图片
-关于选项卡下列不正确的说法是;4;TabHost是选项卡的标记;选项卡会增加窗体的数量;选项卡的好处是将页面分成多个标签页;需要为每一个标签页创建一个布局文件;选项卡会增加窗体的数量
-下列哪个类的对象可以在不同的Activity之间传递数据;5;Intent;Bundle;String;charSequence;Intent
-在Activity之间传递数据一般是将数据先存入;5;Intent对象中;Bundle对象中;String对象;charSequence;Bundle对象中
-在被调用Activity中获取主调程序传过来的数据时，使用下列哪个方法来获取Bundle;5;getIntent();getExtras();getExtra();setResult();getExtras()
-使用下列哪个方法从Bundle中获取数据;5;getIntent();getStringBy();getString();findViewById();getString()
-在调用要带有返回值的子Activity时使用;5;startActivity;setResult;onActivityResult();startActivityForResult();startActivityForResult()
-结果标识码是用于;5;识别哪个是主调Activity。;识别是哪个子Activity返回的数据。;识别是否返回了数据;识别调用了哪了个子Activity;识别是哪个子Activity返回的数据。
-Activity是;5;可视的用户接口;程序的入口;界面布局;主控程序;可视的用户接口
-当Activity不可见，但还在内存中时为;5;Running状态;Paused状态;stoped状态;killed状态;stoped状态
-在创建Activity时必须调用的方法是;5;onStart方法;onRestart方法;onCreate方法;onResume方法;onCreate方法
-启动Activity使用;5;startActivity();startActivity(intent);activityStart(intent);start();startActivity(intent)
-下列哪个不是Intent的功能？;6;封装了程序的启动意图;用于启动组件;交换数据;只用于启动Activity;只用于启动Activity
-Intent的ComponentName属性主要是;6;指明要启动的组件;指明某一个包下的，要启动的组件;指明要启动的组件对应的类;用包名和类名唯一确定一个要启动的组件;用包名和类名唯一确定一个要启动的组件
-Intent的Action属性;6;与Intent其他属性互不影响;很大程度上决定了Intent如何构建;常用于组件的显式启动;必须和Component属性一同使用;很大程度上决定了Intent如何构建
-ComponentName属性;6;可以通过setComponentName()方法设置;使用setComponentClass()方法设置;使用setClass方法设置;使用Component的构造方法设置;使用setClass方法设置
-Intetn的Data属性的数据类型可以是;6;MIME;整型;字符型;实型;MIME
-Intent的Extras属性;6;只能使用Bundle传递额外的键值对信息;只是作为留用一般不使用;可以传递额外的键值对信息;主要用于ContentProvider向外部提供信息;可以传递额外的键值对信息
-Intent有两种形式其中一种是;6;直接Intent;明确式Intent;声明式Intent;显式Intent;显式Intent
-显示Intent是指;6;使用new关键字声明的Intent;通过名称指定目标组件的Intent;在StartActivity中使用的Intent;使用getIntent()方法获得的Intent;通过名称指定目标组件的Intent
-对于Intent过滤器，下列说法正确的是;6;过虑器的标签是<intent-filer>;过滤器只适用于隐式Intent;只能为某组件设置一个过滤器;在Activity的onCreate()方法中配置过滤器;过虑器的标签是<intent-filer>
-Intent过滤器不检测的属性是;6;Action;Data;Extra;Category;Extra
-使用字符串资源的原因是;8;方便在程序中使用了大量相同的字符的修改;Android系统对程序设计的要求;Java语言对程序设计的要求;使java源代码更加清晰;方便在程序中使用了大量相同的字符的修改
-字符串的根元素标记是;8;<string></string>;value;<resources></resources>;res;<resources></resources>
-在.xml文件中使用字符串资源的方法是;8;[<pachage>.]R.string.字符串名;@[<package>:]string/字符串名;字符串名;“字符串名”;@[<package>:]string/字符串名
-在Android中颜色值的排列顺序是;8;Red-Green-Blue-Alpha;Alpha-Red-Blue-Green;Alpha-Red-Green-Blue;Blue-Green-Red-Alpha;Alpha-Red-Green-Blue
-颜色值以下列哪个符号开头;8;&;#;*;@;#
-Android对用户资源命名的要求是;8;字母、数字和下划线;所有小写字母、数字和下划线;所有大写字母、数字和下划线;小字字母、数字和下划线，但只能以字母开头;小字字母、数字和下划线，但只能以字母开头
-Android程序中文本推荐使用的尺寸单位是;8;px;in;sp;dp;sp
-下列不是Android的数组资源标签的是;8;<array/>;<text-array/>;<integer-array/>;<string-array/>;<text-array/>
-Android中能限制图片局布操作的图片格式是;8; .png;.jpg;.9.png;.gif;.9.png
-Android的字符串中表示空格的是;8;space;&#160;;" ";&#32;;&#160;
-对于Toast下列说法正确的是;9;经过一定时间后自动消失;显示时会获得焦点;一般有一个“确认”按钮;按任一键会消失;经过一定时间后自动消失
-创建只带有按钮的Alert对话框要使用;9;AlertDialog类的构造方法;AlertDialog.Builer.create方法;AlertDialog类的create方法;使用AlertDialog.Builder的构造方法;AlertDialog.Builer.create方法
-StateListDrawable资源文件的根元素是;9;<selector></selector>;<resourses></resource>;<StateListDrawable></StateListDrawable>;<item></item>;<selector></selector>
-9-Patch图片是指;9;被分成9个部分的图片;图片可以最多可以贴9个补丁;图片中有的部分被设置成可伸缩的，有的部分被设置成不可伸缩的。;图片有9个面片组成;图片中有的部分被设置成可伸缩的，有的部分被设置成不可伸缩的。
-使用9-Patch图片的好处是;9;可以防止图像失真;防止图片被拉伸;防止图片被压缩;可以使用图片中任何一块Patch;可以防止图像失真
-下列哪个是样式资源的应用;9;改变窗口背景颜色;改变文本框显示文字的大小和颜色;改变文本框中的文字;只能设置组件的一个属性;改变文本框显示文字的大小和颜色
-主题资源的功能是;9;设置编辑框中文字的颜色;改变按钮的颜色;改变图片的内边距的大小;设置窗口的背景;设置窗口的背景
-Android的国际化是指;9;App可以根据操作系统使用的语言来显示对应的字符串信息;全部使用英语;系统中可以使用本国母语;尽量使用图标避免语言困扰;App可以根据操作系统使用的语言来显示对应的字符串信息
-对样式资源下列哪个说法是正确的;9;样式可以改变整个Activity的属性;样式只能改变View控件中的一个属性;样式可以继承其它样式;样式可以一次设置布局文件中的所有属性;样式可以继承其它样式
-Alert对话框创建后;9;要使用create方法显示;要使用builder.show方法显示;要使用show方法显示;直接就显示了;要使用show方法显示
+recede;5;撤回;不顾后果的;描述;先知;撤回
+reckless;5;重现;忍受;不注意的;着手做;不注意的
+recur;5;心神不宁的;重现;微妙的;卤莽的;重现
+portray;5;描写;忍受;提倡者;俯卧的;描写
+undergo;5;经历;提倡者;从事;叙述;经历
+underlie;5;使符合;美德;位于……之下;记述;位于……之下
+accord;5;叙述;使符合;重现;先知;使符合
+address;5;演说;提倡者;视觉;连续;演说
+ultimate;5;代替者;最后的;空的;减去;最后的
+vivid;5;楔子;野草;鲜艳的;使符合;鲜艳的
+virtue;5;忍受;美德;着手做;一致同意的;美德
+subtle;5;有生命力的;微妙的;从事;一系列;微妙的
+yield;5;楔子;生产;描述;连续;生产
+volunteer;5;撤回;批准;志愿者;弯曲的;志愿者
+wander;5;漫步;恶毒的;描述;正当理由;漫步
+warrant;5;不透水的;授权;描述;旁听;授权
+whisper;5;撤回;不顾后果的;描述;先知;撤回
+audit;5;审计;病房;静电复印机;流泪;审计
+vicious;5;邪恶的;之字形的;热忱;空的;邪恶的
+zeal;5;撤回;热心;从事;可见的;热心

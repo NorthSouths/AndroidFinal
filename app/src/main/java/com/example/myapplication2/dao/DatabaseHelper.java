@@ -1,6 +1,6 @@
 package com.example.myapplication2.dao;
 /*
-    author : 181110525 黄琬乔
+    author : 2191110328 乔楠
  */
 import android.content.ContentValues;
 import android.content.Context;
@@ -17,8 +17,9 @@ import java.io.InputStreamReader;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static DatabaseHelper instance;
+
+    // 五张记录表
     private boolean userTableCreated = false;
-    // 我们简化，只有单选题目。
     private boolean questionTableCreated = false; //题目表 记录题目 Question(QUESTION_ID INT, QUESTION_CONTENT, CHOICEA,CHOICEB,CHOICEC,CHOICED)
     private boolean answerTableCreated = false; // 答案表 记录答案。 Answer(QUESTION_ID INT, ANSWER VARCHAR)
     private boolean recordTableCreated = false; // record表，我们借用一下它的逻辑，但是修改为
@@ -86,11 +87,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w("测试", "更新你个头啊");
+        Log.w("测试", "就不更新");
     }
 
+    /*
+        检查
+        USERTABLE 用户信息表
+        RECORDTABLE 答题成绩表
+        QUESTIONTABLE 问题表
+        ANSWERTABLE 正确答案表
+        USERANSWERTABLE 用户答题记录表
+    */
     private void checkTableExist(SQLiteDatabase db) {
         Log.i("QOC", "create table");
+        // 查询数据库"AD"中的所有存在表名
         Cursor cursor = db.rawQuery("select name from sqlite_master where type ='table'", null);
         boolean flag = false;
         while (cursor.moveToNext()) {
@@ -108,12 +118,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
 
+        // USERTABLE 用户信息表
         if (!userTableCreated) {
             String createUserTable = "create table User(name varchar(65535), phonenum varchar(20), email varchar(65535), password varchar(65535), primary key(name))";
             db.execSQL(createUserTable);
             userTableCreated = true;
         }
 
+        // USERANSWERTABLE 用户答题记录表
         if (!userAnswerTableCreated) {
             String sql = "create table " +
                     USERANSWERTABLE +
@@ -126,7 +138,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(sql);
             userAnswerTableCreated = true;
         }
-        // 记录用户的答案。
+
+        // 答题成绩表。
         if (!recordTableCreated) {
             String sql = "create table " +
                     RECORDTABLE +
@@ -139,6 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(sql);
             recordTableCreated = true;
         }
+
         //题目表 记录题目 Question(QUESTION_ID INT, QUESTION_CONTENT, CHOICEA,CHOICEB,CHOICEC,CHOICED)
         if (!questionTableCreated) {
             String sql = "create table " +
@@ -156,6 +170,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             flag = true;
             questionTableCreated = true;
         }
+
+
+        // 正确答案表
         if (!answerTableCreated) {
             String sql = "create table " +
                     ANSWERTABLE +
@@ -167,11 +184,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             flag = true;
             answerTableCreated = true;
         }
+
         // 读取数据。这个应该在表不存在的时候再调用吧。
         if (flag) {
             initQuestionTables(db);
         }
-
     }
 
 
@@ -223,8 +240,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-
 }
