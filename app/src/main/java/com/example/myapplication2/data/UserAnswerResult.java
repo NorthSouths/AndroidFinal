@@ -1,6 +1,6 @@
 package com.example.myapplication2.data;
 /*
-    author : 2191110609李俊霏
+    author : 2191110609 李俊霏
  */
 public class UserAnswerResult {
     private int questionID;
