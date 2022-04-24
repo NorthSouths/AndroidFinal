@@ -1,6 +1,6 @@
 package com.example.myapplication2;
 /*
-    author : 181110514 徐佳辰
+    author : 2191110609 李俊霏
  */
 import android.app.AlertDialog;
 import android.content.DialogInterface;
