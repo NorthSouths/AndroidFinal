@@ -1,6 +1,6 @@
 package com.example.myapplication2.ui.user;
 /*
-    author : 181110515 徐禹萌
+    author : 2191110613 任明宇
  */
 import android.app.AlertDialog;
 import android.content.Intent;
