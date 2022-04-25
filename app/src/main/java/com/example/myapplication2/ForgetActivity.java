@@ -1,6 +1,6 @@
 package com.example.myapplication2;
 /*
-    author : 181110526 裴育
+    author : 2191110329 曲铭倩
  */
 import android.content.DialogInterface;
 import android.os.Bundle;

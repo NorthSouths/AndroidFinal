@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="欢迎来到安卓学习程序"
+            android:text="让我们一起开心的背单词吧！"
             android:textColor="#3f3f3f"
             android:textSize="24sp" />
 
