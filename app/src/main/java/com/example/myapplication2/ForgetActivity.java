@@ -36,7 +36,7 @@ public class ForgetActivity extends AppCompatActivity {
         pwdText = findViewById(R.id.forget_inputPwd);
         pwdRepeatText = findViewById(R.id.forget_inputPwdRepeat);
         verText = findViewById(R.id.forget_verNum);
-        phoneNumberText.setText("15555215554");
+        phoneNumberText.setText("");
 
         for (int i = 0; i < 6; i++) {
             verNum += (char) ('0' + (int) (Math.random() * 10));

@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static DatabaseHelper instance;
 
-    // 五张记录表
+    // 五张记录表，用来判断是否需要生成表
     private boolean userTableCreated = false;
     private boolean questionTableCreated = false; //题目表 记录题目 Question(QUESTION_ID INT, QUESTION_CONTENT, CHOICEA,CHOICEB,CHOICEC,CHOICED)
     private boolean answerTableCreated = false; // 答案表 记录答案。 Answer(QUESTION_ID INT, ANSWER VARCHAR)
@@ -192,6 +192,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    // 初始化问题表，通过读入assets中的txt文件获取数据
     private void initQuestionTables(SQLiteDatabase db) {
         String dataFileName = "question.txt";
         InputStreamReader inputReader;
