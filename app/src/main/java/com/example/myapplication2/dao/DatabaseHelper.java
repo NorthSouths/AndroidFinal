@@ -53,6 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
 
     public static synchronized DatabaseHelper getInstance(Context context, String name) {
+        // 防止重复创建数据库实例
         if (instance == null) {
             instance = new DatabaseHelper(context, name);
         }
@@ -87,7 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w("测试", "就不更新");
+        Log.w("测试", "更新");
     }
 
     /*
@@ -97,6 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         QUESTIONTABLE 问题表
         ANSWERTABLE 正确答案表
         USERANSWERTABLE 用户答题记录表
+        在数据库中是否存在，若不存在则创建表
     */
     private void checkTableExist(SQLiteDatabase db) {
         Log.i("QOC", "create table");
@@ -192,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // 初始化问题表，通过读入assets中的txt文件获取数据
+    // 初始化问题表和答案表，通过读入assets中的txt文件获取数据
     private void initQuestionTables(SQLiteDatabase db) {
         String dataFileName = "question.txt";
         InputStreamReader inputReader;

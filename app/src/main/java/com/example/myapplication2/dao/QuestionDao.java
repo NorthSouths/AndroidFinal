@@ -46,7 +46,7 @@ public class QuestionDao {
         return res;
     }
 
-    // 2. 按照给定的题号ID给出题目信息，包括题干，选项，答案
+    // 2. 按照给定的题号ID给出题目信息，包括题干，选项，答案（从答案表中查询）
     public Question getQuestion(int QID) {
         db = dbhelper.getReadableDatabase(); //这也应该是只读的。
         String content, choiceA, choiceB, choiceC, choiceD, correct;
@@ -97,8 +97,7 @@ public class QuestionDao {
         //如果没有查到，那么就不添加。目前如果题库数量小于要求数量，不认为是错误。当然，前端页面应当去判断个数。
         // 至少的有一道题吧。。
 
-        //去两个数据库查询吧。
-        // 别抱怨上来就getReadableDatabase 了
+        //去两个数据库查询吧
         String content, choiceA, choiceB, choiceC, choiceD, correct;
         int chapter;
         for (int i : randomNumList) {
@@ -192,7 +191,7 @@ public class QuestionDao {
         return resultLists;
     }
 
-    //5. 范围查询 本操作是为了按章节进行查找而准备的。
+    //5. 条件查询 本操作是为了按章节进行查找而准备的。
     public List<Question> getQuestionListByChapter(int targetChapter) {
         List<Question> resultLists = new ArrayList<Question>();
         db = dbhelper.getReadableDatabase(); //这也应该是只读的。
