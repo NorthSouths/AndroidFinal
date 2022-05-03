@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">安卓学习程序</string>
-    <string name="title_challenge">挑战</string>
-    <string name="title_history">历史</string>
-    <string name="title_user">用户</string>
+    <string name="app_name">助力444同学考研计划</string>
+    <string name="title_challenge">背单词</string>
+    <string name="title_history">战绩</string>
+    <string name="title_user">我</string>
     <string-array name="chapter">
         <item>1</item>
         <item>2</item>

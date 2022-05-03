@@ -1,6 +1,6 @@
 package com.example.myapplication2;
 /*
-    author : 181110526 裴育
+    author : 2191110329 曲铭倩
  */
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ public class ForgetActivity extends AppCompatActivity {
         pwdText = findViewById(R.id.forget_inputPwd);
         pwdRepeatText = findViewById(R.id.forget_inputPwdRepeat);
         verText = findViewById(R.id.forget_verNum);
-        phoneNumberText.setText("15555215554");
+        phoneNumberText.setText("");
 
         for (int i = 0; i < 6; i++) {
             verNum += (char) ('0' + (int) (Math.random() * 10));

@@ -25,9 +25,8 @@ public class QuestionDao {
     public QuestionDao(Context context) {
         dbhelper = DatabaseHelper.getInstance(context, DBName);
     }
-// 0. 创建数据库。这个应该是在dbhelper创建的时候来生成了的。DAO层应该不用写代码
 
-    // 我们认为题库不会被删除行。别搞得太麻烦了，要死了
+
     // 对于Question表的操作，主要有
     // 1. 读取count。这用于随机访问的功能中，产生随机数
     public int getTotalQuestionCount() {
@@ -47,8 +46,7 @@ public class QuestionDao {
         return res;
     }
 
-    // 2. 按照给定的题号ID给出题目信息，包括题干，选项，答案
-    // 有空的话，把下边的那个和这个合并一下。
+    // 2. 按照给定的题号ID给出题目信息，包括题干，选项，答案（从答案表中查询）
     public Question getQuestion(int QID) {
         db = dbhelper.getReadableDatabase(); //这也应该是只读的。
         String content, choiceA, choiceB, choiceC, choiceD, correct;
@@ -99,8 +97,7 @@ public class QuestionDao {
         //如果没有查到，那么就不添加。目前如果题库数量小于要求数量，不认为是错误。当然，前端页面应当去判断个数。
         // 至少的有一道题吧。。
 
-        //去两个数据库查询吧。
-        // 别抱怨上来就getReadableDatabase 了
+        //去两个数据库查询吧
         String content, choiceA, choiceB, choiceC, choiceD, correct;
         int chapter;
         for (int i : randomNumList) {
@@ -149,7 +146,6 @@ public class QuestionDao {
 
     }
 
-    // 还有啥？ 调用dbhelper的更新(不是升级)数据库功能？
     // 4. queryAll。返回全部的题库。
     public List<Question> getAllQuestion() {
         List<Question> resultLists = new ArrayList<Question>();
@@ -195,7 +191,7 @@ public class QuestionDao {
         return resultLists;
     }
 
-    //5. 范围查询 本操作是为了按章节进行查找而准备的。
+    //5. 条件查询 本操作是为了按章节进行查找而准备的。
     public List<Question> getQuestionListByChapter(int targetChapter) {
         List<Question> resultLists = new ArrayList<Question>();
         db = dbhelper.getReadableDatabase(); //这也应该是只读的。
@@ -233,8 +229,7 @@ public class QuestionDao {
         return resultLists;
     }
 
-    //6. 添加一条题目记录。为了王峥老师的新需求，拼了
-    //读取文件的时候，自己前端处理去
+    //6. 手动导入题库
     public void insertQuestion(Question question) {
         ContentValues questionValues = new ContentValues();
         ContentValues answerValues = new ContentValues();

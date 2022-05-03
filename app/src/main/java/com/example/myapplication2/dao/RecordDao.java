@@ -49,9 +49,8 @@ public class RecordDao {
         return a;
     }
 
-    // 3. 为了“乐园”读取数据。这个好像暂时不实现也行
 
-    // 4. 存自己的作答。
+    // 3. 存自己的作答。
     public void storageUserAnswer(int groupID, String user, List<UserAnswerResult> userAnswerResults) {
         db = dbhelper.getWritableDatabase();
         for (UserAnswerResult userAnswerResult : userAnswerResults) {
@@ -65,12 +64,9 @@ public class RecordDao {
         db.close();
     }
 
-    // 5. 按照用户名，返回信息。
+    // 4. 按照用户名，返回信息。
     public List<Record> getRecordsByName(String userName) {
         db = dbhelper.getReadableDatabase();
-        //  String sql = "select " + DatabaseHelper.GROUPID + ", " + DatabaseHelper.TIME + ", " + DatabaseHelper.SCORE +
-        //    " from " + DatabaseHelper.RECORDTABLE + " where " + DatabaseHelper.USER + " = " + userName;
-        //Cursor cursor = db.rawQuery(sql, null);
         Cursor cursor = db.query(DatabaseHelper.RECORDTABLE, new String[]{DatabaseHelper.GROUPID, DatabaseHelper.TIME, DatabaseHelper.SCORE},
                 DatabaseHelper.USER + "=?", new String[]{userName}, null, null, null);
         if (cursor.getCount() == 0) {
@@ -93,7 +89,7 @@ public class RecordDao {
         return results;
     }
 
-    //6. 按照给定的groupID查找UserAnswer表，获得List<userAnswerResult>
+    //5. 按照给定的groupID查找UserAnswer表，获得List<userAnswerResult>
     public List<UserAnswerResult> getUserAnswerResultsByGroupID(int groupID) {
         ArrayList<UserAnswerResult> userAnswerResults = new ArrayList<>();
         db = dbhelper.getReadableDatabase(); //这也应该是只读的。
@@ -120,13 +116,11 @@ public class RecordDao {
         return userAnswerResults;
     }
 
-    // 7. 清空记录
+    // 5. 清空记录
     public void clearUserRecord(String name) {
         db = dbhelper.getWritableDatabase();
         db.delete(DatabaseHelper.RECORDTABLE, DatabaseHelper.USER + " =?", new String[]{name});
         db.delete(DatabaseHelper.USERANSWERTABLE, DatabaseHelper.USER + " =?", new String[]{name});
-
-
         db.close();
     }
 }
