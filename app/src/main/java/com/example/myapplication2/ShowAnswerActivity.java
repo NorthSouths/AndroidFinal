@@ -1,6 +1,6 @@
 package com.example.myapplication2;
 /*
-    author : 181110514 徐佳辰
+    author : 2191110616 王泽
  */
 import androidx.appcompat.app.AppCompatActivity;
 

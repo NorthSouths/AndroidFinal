@@ -1,6 +1,6 @@
 package com.example.myapplication2.ui.challenge;
 /*
-    author : 181110514 徐佳辰
+    author : 2191110616 王泽
  */
 import android.app.AlertDialog;
 import android.content.DialogInterface;
